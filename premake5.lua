@@ -16,10 +16,16 @@ workspace "Meatball"
 project "Meatball"
     kind "StaticLib"
     cppdialect "C++17"
-    includedirs "%{prj.name}/Source"
+    includedirs {
+        "%{prj.name}/Source",
+        "%{prj.name}/Dependency/Glfw/include"
+    }
     files { 
         "%{prj.name}/Source/**.hpp", 
         "%{prj.name}/Source/**.cpp"
+    }
+    links {
+        "Lib/Glfw/glfw3.lib"
     }
     warnings "Extra"
     defines { "_CRT_SECURE_NO_WARNINGS" }

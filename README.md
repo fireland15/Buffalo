@@ -6,4 +6,5 @@
 
 - VS2019
 - Powershell
-- `premake4` is available in PATH pointing to [Premake](https://premake.github.io/) version 4.
+- `msbuild` in path
+- `premake5` is available in PATH pointing to [Premake](https://premake.github.io/) version 5.
