@@ -1,0 +1,3 @@
+[submodule "Meatball/Dependency/Glfw"]
+	path = Meatball/Dependency/Glfw
+	url = https://github.com/glfw/glfw.git
