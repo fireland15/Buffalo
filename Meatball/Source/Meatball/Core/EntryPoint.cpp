@@ -1,9 +1,9 @@
 #include <iostream>
 #include <Meatball/Core/Application.hpp>
-#include <Meatball/Logging/Log.hpp>
-#include <Meatball/Logging/FileLogger.hpp>
+#include <Meatball/Core/Debug.hpp>
+#include <Meatball/Core/Debug/Logging/FileLogger.hpp>
 
-extern Meatball::Application* Meatball::CreateApplication();
+extern Meatball::Unique<Meatball::Application> Meatball::CreateApplication();
 
 int main() {
     std::ios::sync_with_stdio(false);
@@ -12,5 +12,4 @@ int main() {
 
     auto app = Meatball::CreateApplication();
     app->Run();
-	delete app;
 }

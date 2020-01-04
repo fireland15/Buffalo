@@ -6,14 +6,18 @@ namespace Meatball {
 	namespace Events {
 		class Event {
 		public:
-			Event(EventType type);
-
 			virtual ~Event() = default;
 
-			EventType GetType();
+			virtual EventType GetType() = 0;
+
+			virtual const char* GetName() = 0;
+
+			inline bool Handled() { return handled; }
+
+			void StopPropagation();
 
 		private:
-			EventType type;
+			bool handled = false;
 		};
 	}
 }

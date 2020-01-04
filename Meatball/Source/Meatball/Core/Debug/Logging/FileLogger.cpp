@@ -1,4 +1,4 @@
-#include <Meatball/Logging/FileLogger.hpp>
+#include <Meatball/Core/Debug/Logging/FileLogger.hpp>
 #include <sstream>
 #include <chrono>
 #include <ctime>

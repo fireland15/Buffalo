@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <Meatball/Logging/Severity.hpp>
+#include <Meatball/Core/Debug/Logging/Severity.hpp>
 
 namespace Meatball {
 	namespace Logging {

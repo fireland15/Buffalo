@@ -1,11 +1,12 @@
 #include <Meatball/Core/Application.hpp>
-#include <Meatball/Logging/Log.hpp>
-#include <Meatball/Instrumentation/Profiler.hpp>
+#include <Meatball/Core/Debug.hpp>
+#include <Meatball/Events/ApplicationEvent.hpp>
 
 #include <iostream>
 
 namespace Meatball {
-    Application::Application() {
+    Application::Application(Unique<Events::EventBus> eventBus) 
+		: eventBus(std::move(eventBus)) {
 		MEATBALL_LOG_TRACE("Entered Application::Application()");
 		MEATBALL_LOG_TRACE("Exiting Application::Application()");
     }
@@ -21,6 +22,7 @@ namespace Meatball {
 
 		int x = 10000;
 		while (x-- > 0) {
+			GetEventBus().Publish<Events::ApplicationTickEvent>();
 			MEATBALL_PROFILE_SCOPE("Main Loop");
 			MEATBALL_LOG_INFO("Beginning Frame");
 

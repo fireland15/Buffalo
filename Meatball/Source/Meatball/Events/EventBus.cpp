@@ -4,7 +4,7 @@ namespace Meatball {
 	namespace Events {
 		static EventBus eventBus;
 
-		void EventBus::Publish(std::shared_ptr<Event> event) {
+		void EventBus::PublishEvent(Shared<Event> event) {
 			if (!event) {
 				return;
 			}

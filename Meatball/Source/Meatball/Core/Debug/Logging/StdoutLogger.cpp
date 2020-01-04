@@ -1,4 +1,4 @@
-#include <Meatball/Logging/StdoutLogger.hpp>
+#include <Meatball/Core/Debug/Logging/StdoutLogger.hpp>
 #include <iostream>
 
 namespace Meatball{

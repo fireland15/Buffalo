@@ -1,21 +1,22 @@
 #pragma once
 
 #include <Meatball/Events/EventBus.hpp>
+#include <Meatball/Core.hpp>
 
 namespace Meatball {
 	class Application {
 	public:
-		Application();
+		Application(Unique<Events::EventBus> eventBus);
 		virtual ~Application();
 
 		void Run();
 
 	protected:
-		inline Events::EventBus& GetEventBus() { return eventBus; }
+		inline Events::EventBus& GetEventBus() { return *eventBus; }
 
 	private:
-		Events::EventBus eventBus;
+		Unique<Events::EventBus> eventBus;
 	};
 
-    Application* CreateApplication();
+    Unique<Application> CreateApplication();
 }

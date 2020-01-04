@@ -1,8 +1,8 @@
 #pragma once
 
 #include <fstream>
-#include <Meatball/Instrumentation/ProfileResult.hpp>
-#include <Meatball/Instrumentation/ProfilingTimer.hpp>
+#include <Meatball/Core/Debug/Instrumentation/ProfileResult.hpp>
+#include <Meatball/Core/Debug/Instrumentation/ProfilingTimer.hpp>
 
 namespace Meatball {
 	namespace Instrumentation {

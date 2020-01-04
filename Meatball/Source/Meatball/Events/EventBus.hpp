@@ -6,6 +6,7 @@
 #include <Meatball/Events/Event.hpp>
 #include <Meatball/Events/EventType.hpp>
 #include <Meatball/Events/EventReceiver.hpp>
+#include <Meatball/Core.hpp>
 
 namespace Meatball {
 	namespace Events {
@@ -23,7 +24,13 @@ namespace Meatball {
 				AddEventReceiverForEventType(receiver, type);
 			}
 
-			void Publish(std::shared_ptr<Event> event);
+			template<typename TEvent, typename ...TEventArgs>
+			void Publish(TEventArgs... args) {
+				PublishEvent(std::make_shared<TEvent>(args...));
+			}
+
+		protected:
+			virtual void PublishEvent(Shared<Event> event);
 
 		private:
 			void AddEventReceiverForEventType(EventReceiver* receiver, EventType type);

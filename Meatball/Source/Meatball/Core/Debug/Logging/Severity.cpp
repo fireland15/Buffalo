@@ -1,4 +1,4 @@
-#include <Meatball/Logging/Severity.hpp>
+#include <Meatball/Core/Debug/Logging/Severity.hpp>
 #include <string>
 
 namespace Meatball {

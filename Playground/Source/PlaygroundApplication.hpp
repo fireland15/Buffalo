@@ -6,7 +6,7 @@
 
 class PlaygroundApplication : public Meatball::Application {
 public:
-	PlaygroundApplication();
+	PlaygroundApplication(Meatball::Unique<Meatball::Events::EventBus> eventBus);
 	virtual ~PlaygroundApplication();
 
 private:

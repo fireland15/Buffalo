@@ -3,7 +3,8 @@
 namespace Meatball {
 	namespace Events {
 		enum class EventType : int {
-			Test = 123
+			Test = 1,
+			ApplicationTick = 2
 		};
 	}
 }

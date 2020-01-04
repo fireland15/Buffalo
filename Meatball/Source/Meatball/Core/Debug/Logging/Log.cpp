@@ -1,4 +1,4 @@
-#include <Meatball/Logging/Log.hpp>
+#include <Meatball/Core/Debug/Logging/Log.hpp>
 
 namespace Meatball {
 	std::unique_ptr<Logging::ILogger> Log::_logger;

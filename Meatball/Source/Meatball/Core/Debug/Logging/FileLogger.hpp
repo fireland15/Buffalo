@@ -2,7 +2,7 @@
 
 #include <string>
 #include <fstream>
-#include <Meatball/Logging/ILogger.hpp>
+#include <Meatball/Core/Debug/Logging/ILogger.hpp>
 
 namespace Meatball {
 	namespace Logging {
