@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Meatball/Events/EventBus.hpp>
+
 namespace Meatball {
 	class Application {
 	public:
@@ -7,6 +9,12 @@ namespace Meatball {
 		virtual ~Application();
 
 		void Run();
+
+	protected:
+		inline Events::EventBus& GetEventBus() { return eventBus; }
+
+	private:
+		Events::EventBus eventBus;
 	};
 
     Application* CreateApplication();
