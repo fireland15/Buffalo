@@ -8,7 +8,4 @@ class PlaygroundApplication : public Meatball::Application {
 public:
 	PlaygroundApplication(Meatball::Unique<Meatball::Events::EventBus> eventBus);
 	virtual ~PlaygroundApplication();
-
-private:
-	Meatball::Events::EventReceiver eventReceiver;
 };

@@ -15,7 +15,7 @@ namespace Meatball {
 		public:
 			virtual ~Window() = default;
 
-			virtual void AttachEventBus(Events::EventBus& eventBus) = 0;
+			virtual void OnUpdate() = 0;
 		};
 	}
 }

@@ -2,9 +2,8 @@
 
 namespace Meatball {
 	namespace Events {
-		static EventBus eventBus;
-
 		void EventBus::PublishEvent(Shared<Event> event) {
+			MEATBALL_PROFILE_FUNC();
 			if (!event) {
 				return;
 			}
@@ -20,6 +19,7 @@ namespace Meatball {
 		}
 
 		void EventBus::RemoveEventReceiver(EventReceiver* receiver) {
+			MEATBALL_PROFILE_FUNC();
 			for (auto& pair : receivers) {
 				auto& receiversForType = pair.second;
 				receiversForType.erase(receiver);
@@ -27,6 +27,7 @@ namespace Meatball {
 		}
 
 		void EventBus::AddEventReceiverForEventType(EventReceiver* receiver, EventType type) {
+			MEATBALL_PROFILE_FUNC();
 			if (receivers.count(type) == 0) {
 				receivers.emplace(type, std::set<EventReceiver*>());
 			}

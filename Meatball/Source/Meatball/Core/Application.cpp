@@ -5,8 +5,8 @@
 #include <iostream>
 
 namespace Meatball {
-    Application::Application(Unique<Events::EventBus> eventBus) 
-		: eventBus(std::move(eventBus)) {
+    Application::Application(Unique<Events::EventBus> eventBus, Unique<Windowing::Window> window)
+		: eventBus(std::move(eventBus)), window(std::move(window)) {
 		MEATBALL_LOG_TRACE("Entered Application::Application()");
 		MEATBALL_LOG_TRACE("Exiting Application::Application()");
     }
@@ -22,11 +22,13 @@ namespace Meatball {
 
 		int x = 10000;
 		while (x-- > 0) {
-			GetEventBus().Publish<Events::ApplicationTickEvent>();
+			window->OnUpdate();
 			MEATBALL_PROFILE_SCOPE("Main Loop");
-			MEATBALL_LOG_INFO("Beginning Frame");
-
-			MEATBALL_LOG_INFO("Completed Frame");
+			MEATBALL_LOG_TRACE("Beginning Frame");
+			if (x == 7777) {
+				GetEventBus().Publish<Events::ApplicationShutdownEvent>();
+			}
+			MEATBALL_LOG_TRACE("Completed Frame");
 		}
 
 		MEATBALL_LOG_TRACE("Exiting Application::Run()");

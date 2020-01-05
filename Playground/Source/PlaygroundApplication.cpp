@@ -4,17 +4,16 @@
 #include <fstream>
 #include <Meatball/Core.hpp>
 #include <Meatball/Core/ApplicationBuilder.hpp>
+#include <Meatball/Windowing/ScriptedTestWindow.hpp>
 
 using EventType = Meatball::Events::EventType;
 
 PlaygroundApplication::PlaygroundApplication(Meatball::Unique<Meatball::Events::EventBus> eventBus)
-		: Application(std::move(eventBus)) {
-	GetEventBus().AddEventReceiver(&eventReceiver, EventType::ApplicationTick);
+		: Application(std::move(eventBus), std::make_unique<Meatball::Windowing::ScriptedTestWindow>(eventBus->GetDispatcher())) {
+
 }
 
 PlaygroundApplication::~PlaygroundApplication() {
-	auto event = eventReceiver.Pop();
-	GetEventBus().RemoveEventReceiver(&eventReceiver);
 }
 
 class LoggingEventBus : public Meatball::Events::EventBus {

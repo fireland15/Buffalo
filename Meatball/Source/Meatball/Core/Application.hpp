@@ -2,11 +2,12 @@
 
 #include <Meatball/Events/EventBus.hpp>
 #include <Meatball/Core.hpp>
+#include <Meatball/Windowing/Window.hpp>
 
 namespace Meatball {
 	class Application {
 	public:
-		Application(Unique<Events::EventBus> eventBus);
+		Application(Unique<Events::EventBus> eventBus, Unique<Windowing::Window> window);
 		virtual ~Application();
 
 		void Run();
@@ -16,6 +17,7 @@ namespace Meatball {
 
 	private:
 		Unique<Events::EventBus> eventBus;
+		Unique<Windowing::Window> window;
 	};
 
     Unique<Application> CreateApplication();
