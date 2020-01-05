@@ -1,4 +1,4 @@
-#include <Meatball/Instrumentation/Profiler.hpp>
+#include <Meatball/Core/Debug/Instrumentation/Profiler.hpp>
 #include <exception>
 #include <algorithm>
 
@@ -10,7 +10,7 @@ namespace Meatball {
 			: profileCount(0) {
 			fileStream.open("profile.json");
 			if (!fileStream.is_open()) {
-				throw std::exception("Failed to open profile.json");
+				throw std::runtime_error("Failed to open profile.json");
 			}
 			fileStream << "[";
 		}

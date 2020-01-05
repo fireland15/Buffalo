@@ -37,6 +37,7 @@ end
 
 project "Playground"
     kind "ConsoleApp"
+    cppdialect "C++17"
     includedirs "%{prj.name}/Source"
     files {
         "%{prj.name}/Source/**.hpp",

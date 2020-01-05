@@ -20,7 +20,7 @@ namespace Meatball {
 			filename = ss_filename.str();
 			os.open(filename);
 			if (!os.is_open()) {
-				throw std::exception("Failed to open the log file.");
+				throw std::runtime_error("Failed to open the log file.");
 			}
 		}
 

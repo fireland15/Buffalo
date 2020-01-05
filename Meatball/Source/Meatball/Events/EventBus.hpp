@@ -12,6 +12,8 @@ namespace Meatball {
 	namespace Events {
 		class EventBus {
 		public:
+            virtual ~EventBus() = default;
+
 			void RemoveEventReceiver(EventReceiver* receiver);
 
 			template<typename TEventType, typename ...TEventTypes>

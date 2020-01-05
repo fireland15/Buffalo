@@ -1,6 +1,6 @@
-#include <Meatball/Instrumentation/ProfilingTimer.hpp>
+#include <Meatball/Core/Debug/Instrumentation/ProfilingTimer.hpp>
 #include <chrono>
-#include <Meatball/Instrumentation/Profiler.hpp>
+#include <Meatball/Core/Debug/Instrumentation/Profiler.hpp>
 
 namespace Meatball {
 	namespace Instrumentation {
