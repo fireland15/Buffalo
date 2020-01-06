@@ -19,9 +19,6 @@ namespace Meatball {
 			virtual void OnUpdate();
 
 			void OnApplicationShutdown(Shared<Events::Event> event);
-
-		private:
-			Unique<Events::EventDispatcher> _eventDispatcher;
 		};
 	}
 }

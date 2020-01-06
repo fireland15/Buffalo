@@ -1,4 +1,7 @@
 #include <Meatball/Events/EventBus.hpp>
+#include <Meatball/Events/Event.hpp>
+#include <Meatball/Events/EventReceiver.hpp>
+#include <Meatball/Events/EventDispatcher.hpp>
 
 namespace Meatball {
 	namespace Events {
@@ -26,12 +29,17 @@ namespace Meatball {
 			}
 		}
 
-		void EventBus::AddEventReceiverForEventType(EventReceiver* receiver, EventType type) {
+		void EventBus::AddEventReceiver(EventReceiver* receiver, EventType type) {
 			MEATBALL_PROFILE_FUNC();
 			if (receivers.count(type) == 0) {
 				receivers.emplace(type, std::set<EventReceiver*>());
 			}
 			receivers[type].emplace(std::ref(receiver));
+		}
+
+		Unique<EventDispatcher> EventBus::GetDispatcher() {
+			MEATBALL_PROFILE_FUNC();
+			return std::make_unique<EventDispatcher>(*this);
 		}
 	}
 }

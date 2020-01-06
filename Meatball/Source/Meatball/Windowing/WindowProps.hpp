@@ -5,11 +5,11 @@
 namespace Meatball {
 	namespace Windowing {
 		struct WindowProps {
-			std::string Title;
+			const char* Title;
 			unsigned int Width;
 			unsigned int Height;
 
-			WindowProps(const std::string& title = "Meatball Engine",
+			WindowProps(const char* title = "Meatball Engine",
 				unsigned int width = 1280,
 				unsigned int height = 720)
 				: Title(title), Width(width), Height(height) { }

@@ -4,12 +4,12 @@
 #include <fstream>
 #include <Meatball/Core.hpp>
 #include <Meatball/Core/ApplicationBuilder.hpp>
-#include <Meatball/Windowing/ScriptedTestWindow.hpp>
+#include <Meatball/Windowing/GlfwWindow.hpp>
 
 using EventType = Meatball::Events::EventType;
 
 PlaygroundApplication::PlaygroundApplication(Meatball::Unique<Meatball::Events::EventBus> eventBus)
-		: Application(std::move(eventBus), std::make_unique<Meatball::Windowing::ScriptedTestWindow>(eventBus->GetDispatcher())) {
+		: Application(std::move(eventBus), std::make_unique<Meatball::Windowing::GlfwWindow>(eventBus->GetDispatcher())) {
 
 }
 

@@ -26,5 +26,10 @@ namespace Meatball {
 			auto type = event->GetType();
 			_handlers[type](event);
 		}
+
+		EventBus& EventDispatcher::GetEventBus() {
+			MEATBALL_PROFILE_FUNC();
+			return _bus;
+		}
 	}
 }

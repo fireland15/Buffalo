@@ -16,8 +16,14 @@ namespace Meatball {
 		inline Events::EventBus& GetEventBus() { return *eventBus; }
 
 	private:
+
+		void OnWindowClosed(Shared<Events::Event> event);
+
+	private:
 		Unique<Events::EventBus> eventBus;
+		Unique<Events::EventDispatcher> eventDispatcher;
 		Unique<Windowing::Window> window;
+		bool running = true;
 	};
 
     Unique<Application> CreateApplication();

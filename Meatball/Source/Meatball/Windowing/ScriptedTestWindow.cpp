@@ -2,20 +2,30 @@
 #include <Meatball/Events/EventBus.hpp>
 #include <Meatball/Events/EventType.hpp>
 #include <Meatball/Events/EventDispatcher.hpp>
+#include <Meatball/Events/ApplicationEvent.hpp>
 #include <Meatball/Core.hpp>
 #include <Meatball/Core/Debug.hpp>
+
+#include <time.h>
+#include <stdlib.h>>
 
 namespace Meatball {
 	namespace Windowing {
 		ScriptedTestWindow::ScriptedTestWindow(Unique<Events::EventDispatcher> eventDispatcher)
-			: _eventDispatcher(std::move(eventDispatcher)) {
-			_eventDispatcher->
-				AddEventHandler(Events::EventType::ApplicationShutdown, MEATBALL_BIND_EVENT_HANDLER(ScriptedTestWindow::OnApplicationShutdown));
+			: Window(std::move(eventDispatcher)) {
+			GetEventDispatcher()
+				.AddEventHandler(Events::EventType::ApplicationShutdown, MEATBALL_BIND_EVENT_HANDLER(ScriptedTestWindow::OnApplicationShutdown));
+
+			srand(time(NULL));
 		}
 
 		void ScriptedTestWindow::OnUpdate() {
 			MEATBALL_PROFILE_FUNC();
-			_eventDispatcher->DispatchEvents();
+			GetEventDispatcher().DispatchEvents();
+
+			if (rand() % 10 == 7) {
+				GetEventBus().Publish<Events::ApplicationTickEvent>();
+			}
 		}
 
 		void ScriptedTestWindow::OnApplicationShutdown(Shared<Events::Event> event) {

@@ -19,6 +19,8 @@ namespace Meatball {
 
 			void DispatchEvents();
 
+			EventBus& GetEventBus();
+
 		private:
 
 			void Dispatch(Shared<Event> event);

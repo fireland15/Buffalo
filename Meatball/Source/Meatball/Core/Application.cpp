@@ -7,6 +7,8 @@
 namespace Meatball {
     Application::Application(Unique<Events::EventBus> eventBus, Unique<Windowing::Window> window)
 		: eventBus(std::move(eventBus)), window(std::move(window)) {
+		eventDispatcher = this->eventBus->GetDispatcher();
+		eventDispatcher->AddEventHandler(Events::EventType::WindowClosed, MEATBALL_BIND_EVENT_HANDLER(Application::OnWindowClosed));
 		MEATBALL_LOG_TRACE("Entered Application::Application()");
 		MEATBALL_LOG_TRACE("Exiting Application::Application()");
     }
@@ -20,17 +22,18 @@ namespace Meatball {
 		MEATBALL_LOG_TRACE("Entered Application::Run()");
 		MEATBALL_PROFILE_FUNC();
 
-		int x = 10000;
-		while (x-- > 0) {
+		while (running) {
+			eventDispatcher->DispatchEvents();
 			window->OnUpdate();
 			MEATBALL_PROFILE_SCOPE("Main Loop");
 			MEATBALL_LOG_TRACE("Beginning Frame");
-			if (x == 7777) {
-				GetEventBus().Publish<Events::ApplicationShutdownEvent>();
-			}
 			MEATBALL_LOG_TRACE("Completed Frame");
 		}
 
 		MEATBALL_LOG_TRACE("Exiting Application::Run()");
     }
+
+	void Application::OnWindowClosed(Shared<Events::Event> event) {
+		running = false;
+	}
 }
