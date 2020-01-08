@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <Meatball/Events/EventType.hpp>
 
 namespace Meatball {
@@ -12,12 +13,12 @@ namespace Meatball {
 
 			virtual const char* GetName() = 0;
 
-			inline bool Handled() { return handled; }
+			inline bool Handled() { return _handled; }
 
 			void StopPropagation();
 
 		private:
-			bool handled = false;
+			bool _handled = false;
 		};
 	}
 }

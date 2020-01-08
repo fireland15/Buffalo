@@ -13,16 +13,19 @@ namespace Meatball {
 		void Run();
 
 	protected:
-		inline Events::EventBus& GetEventBus() { return *eventBus; }
+
+		inline Events::EventBus& GetEventBus() { return *_eventBus; }
+
+		inline Events::EventDispatcher& GetEventDispatcher() { return *_eventDispatcher; }
 
 	private:
 
 		void OnWindowClosed(Shared<Events::Event> event);
 
 	private:
-		Unique<Events::EventBus> eventBus;
-		Unique<Events::EventDispatcher> eventDispatcher;
-		Unique<Windowing::Window> window;
+		Unique<Events::EventBus> _eventBus;
+		Unique<Events::EventDispatcher> _eventDispatcher;
+		Unique<Windowing::Window> _window;
 		bool running = true;
 	};
 

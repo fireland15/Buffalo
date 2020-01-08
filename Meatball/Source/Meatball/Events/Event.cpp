@@ -3,7 +3,7 @@
 namespace Meatball {
 	namespace Events {
 		void Event::StopPropagation() {
-			handled = true;
+			_handled = true;
 		}
 	}
 }

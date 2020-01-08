@@ -5,7 +5,9 @@ namespace Meatball {
 		enum class EventType : int {
 			ApplicationTick,
 			ApplicationShutdown,
-			WindowClosed
+			WindowClosed,
+			KeyPressed,
+			KeyReleased
 		};
 	}
 }
