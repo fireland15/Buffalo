@@ -6,6 +6,7 @@
 #include <Meatball/Events/EventBus.hpp>
 #include <Meatball/Events/WindowEvent.hpp>
 #include <Meatball/Events/KeyEvent.hpp>
+#include <Meatball/Events/MouseEvent.hpp>
 
 namespace Meatball {
 	namespace Windowing {
@@ -43,6 +44,8 @@ namespace Meatball {
 			glfwSetWindowUserPointer(_glfwWindow, static_cast<void*>(this));
 			glfwSetWindowCloseCallback(_glfwWindow, &GlfwWindow::glfwWindowCloseCallback);
 			glfwSetKeyCallback(_glfwWindow, &GlfwWindow::glfwKeyCallback);
+			glfwSetCursorPosCallback(_glfwWindow, &GlfwWindow::glfwCursorPosCallback);
+			glfwSetMouseButtonCallback(_glfwWindow, &GlfwWindow::glfwMouseButtonCallback);
 		}
 
 		GlfwWindow::~GlfwWindow() {
@@ -85,9 +88,30 @@ namespace Meatball {
 			switch (action) {
 			case GLFW_RELEASE:
 				GetEventBus().Publish<Events::KeyReleasedEvent>(static_cast<Key>(key));
+				return;
 			case GLFW_PRESS:
 				GetEventBus().Publish<Events::KeyPressedEvent>(static_cast<Key>(key));
+				return;
 			case GLFW_REPEAT:
+			default:
+				return;
+			}
+		}
+
+		void GlfwWindow::HandleCursorPosEvent(double xpos, double ypos) {
+			MEATBALL_PROFILE_FUNC();
+			GetEventBus().Publish<Events::MouseMovedEvent>(xpos, ypos);
+		}
+
+		void GlfwWindow::HandleMouseButtonEvent(int button, int action, int mods) {
+			MEATBALL_PROFILE_FUNC();
+			switch (action) {
+			case GLFW_PRESS:
+				GetEventBus().Publish<Events::MouseButtonPressedEvent>(static_cast<MouseCodes>(button));
+				return;
+			case GLFW_RELEASE:
+				GetEventBus().Publish<Events::MouseButtonReleasedEvent>(static_cast<MouseCodes>(button));
+				return;
 			default:
 				return;
 			}
@@ -107,6 +131,18 @@ namespace Meatball {
 			MEATBALL_PROFILE_FUNC();
 			GlfwWindow* meatballWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
 			meatballWindow->HandleWindowClosed();
+		}
+
+		void GlfwWindow::glfwCursorPosCallback(GLFWwindow* window, double xpos, double ypos) {
+			MEATBALL_PROFILE_FUNC();
+			GlfwWindow* meatballWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+			meatballWindow->HandleCursorPosEvent(xpos, ypos);
+		}
+
+		void GlfwWindow::glfwMouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+			MEATBALL_PROFILE_FUNC();
+			GlfwWindow* meatballWindow = static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+			meatballWindow->HandleMouseButtonEvent(button, action, mods);
 		}
 
 		void glfwErrorCallback(int error, const char* description) {

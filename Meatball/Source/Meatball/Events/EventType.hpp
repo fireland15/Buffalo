@@ -7,7 +7,10 @@ namespace Meatball {
 			ApplicationShutdown,
 			WindowClosed,
 			KeyPressed,
-			KeyReleased
+			KeyReleased,
+			MouseMoved,
+			MouseButtonPressed,
+			MouseButtonReleased
 		};
 	}
 }
