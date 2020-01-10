@@ -1,3 +1,6 @@
 [submodule "Meatball/Dependency/Glfw"]
 	path = Meatball/Dependency/Glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "Meatball/Dependency/spdlog"]
+	path = Meatball/Dependency/spdlog
+	url = https://github.com/gabime/spdlog.git
