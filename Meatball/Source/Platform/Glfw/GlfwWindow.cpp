@@ -7,6 +7,8 @@
 #include <Meatball/Events/WindowEvent.hpp>
 #include <Meatball/Events/KeyEvent.hpp>
 #include <Meatball/Events/MouseEvent.hpp>
+#include <Platform/OpenGL/OpenGLGraphicsContext.hpp>
+#include <Meatball/Events/EventDispatcher.hpp>
 
 namespace Meatball {
 	namespace Windowing {
@@ -41,6 +43,9 @@ namespace Meatball {
 				throw std::runtime_error("Failed to create a GLFW window!");
 			}
 
+			_context = std::make_unique<OpenGL::OpenGLGraphicsContext>(_glfwWindow);
+			_context->Init();
+
 			glfwSetWindowUserPointer(_glfwWindow, static_cast<void*>(this));
 			glfwSetWindowCloseCallback(_glfwWindow, &GlfwWindow::glfwWindowCloseCallback);
 			glfwSetKeyCallback(_glfwWindow, &GlfwWindow::glfwKeyCallback);
@@ -64,6 +69,13 @@ namespace Meatball {
 			MEATBALL_PROFILE_FUNC();
 			glfwSwapBuffers(_glfwWindow);
 			glfwPollEvents();
+		}
+
+		void GlfwWindow::Terminate() {
+			MEATBALL_PROFILE_FUNC();
+			MEATBALL_LOG_INFO("Closing Window.");
+			glfwDestroyWindow(_glfwWindow);
+			_glfwWindow == nullptr;
 		}
 
 		//////////////////////////////////////

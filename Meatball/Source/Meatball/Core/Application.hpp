@@ -1,22 +1,30 @@
 #pragma once
 
-#include <Meatball/Events/EventBus.hpp>
 #include <Meatball/Core.hpp>
-#include <Meatball/Windowing/Window.hpp>
 
 namespace Meatball {
+	namespace Events {
+		class Event;
+		class EventBus;
+		class EventDispatcher;
+	}
+
+	namespace Windowing {
+		class Window;
+	}
+
 	class Application {
 	public:
-		Application(Unique<Events::EventBus> eventBus, Unique<Windowing::Window> window);
+		Application();
 		virtual ~Application();
 
 		void Run();
 
 	protected:
 
-		inline Events::EventBus& GetEventBus() { return *_eventBus; }
+		inline Events::EventBus& GetEventBus();
 
-		inline Events::EventDispatcher& GetEventDispatcher() { return *_eventDispatcher; }
+		inline Events::EventDispatcher& GetEventDispatcher();
 
 	private:
 

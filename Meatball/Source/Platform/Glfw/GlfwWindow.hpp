@@ -2,12 +2,18 @@
 
 #include <Meatball/Core.hpp>
 #include <Meatball/Windowing/Window.hpp>
+#include <Meatball/Windowing/WindowProps.hpp>
 
 struct GLFWwindow;
 
 namespace Meatball {
 	namespace Events {
 		class EventDispatcher;
+		class Event;
+	}
+
+	namespace OpenGL {
+		class OpenGLGraphicsContext;
 	}
 
 	namespace Windowing {
@@ -18,6 +24,8 @@ namespace Meatball {
 			virtual ~GlfwWindow();
 
 			virtual void OnUpdate();
+
+			virtual void Terminate();
 
 			void OnApplicationShutdown(Shared<Events::Event> event);
 
@@ -43,6 +51,8 @@ namespace Meatball {
 			GLFWwindow* _glfwWindow;
 
 			static int _glfwWindowCount;
+
+			Unique<OpenGL::OpenGLGraphicsContext> _context;
 		};
 	}
 }

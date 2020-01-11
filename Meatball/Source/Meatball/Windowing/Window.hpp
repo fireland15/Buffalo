@@ -3,27 +3,28 @@
 #include <memory>
 #include <functional>
 #include <Meatball/Core.hpp>
-#include <Meatball/Events/EventDispatcher.hpp>
-#include <Meatball/Windowing/WindowProps.hpp>
 
 namespace Meatball {
 	namespace Events {
+		class EventBus;
 		class EventDispatcher;
 	}
 
 	namespace Windowing {
 		class Window {
 		public:
-			Window(Unique<Events::EventDispatcher> eventDispatcher) : _eventDispatcher(std::move(eventDispatcher)) {}
+			Window(Unique<Events::EventDispatcher> eventDispatcher);
 
 			virtual ~Window() = default;
 
 			virtual void OnUpdate() = 0;
 
-		protected:
-			inline Events::EventDispatcher& GetEventDispatcher() { return *_eventDispatcher; }
+			virtual void Terminate() = 0;
 
-			inline Events::EventBus& GetEventBus() { return _eventDispatcher->GetEventBus(); }
+		protected:
+			Events::EventDispatcher& GetEventDispatcher();
+
+			Events::EventBus& GetEventBus();
 
 		private:
 			Unique<Events::EventDispatcher> _eventDispatcher;

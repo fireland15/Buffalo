@@ -3,10 +3,9 @@
 #include <string>
 #include <memory>
 #include <Meatball/Core.hpp>
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/ostr.h>
 
-namespace spdlog {
-	class logger;
-}
 
 namespace Meatball {
 	class Log {
@@ -24,6 +23,8 @@ namespace Meatball {
 
 		static void Warning(const std::string& message);
 
+		static spdlog::logger& GetLogger() { return *_logger; }
+
 	private:
 
 		static Shared<spdlog::logger> _logger;
@@ -34,7 +35,7 @@ namespace Meatball {
 #ifdef MEATBALL_DEBUG
 	#define MEATBALL_LOG_DEBUG(x) ::Meatball::Log::Debug(x)
 	#define MEATBALL_LOG_ERROR(x) ::Meatball::Log::Error(x, __FILE__, __LINE__)
-	#define MEATBALL_LOG_INFO(x) ::Meatball::Log::Info(x)
+	#define MEATBALL_LOG_INFO(...) ::Meatball::Log::GetLogger().info(__VA_ARGS__)
 	#define MEATBALL_LOG_TRACE(x) ::Meatball::Log::Trace(x, __FILE__, __LINE__)
 	#define MEATBALL_LOG_WARNING(x) ::Meatball::Log::Warning(x)
 	#define MEATBALL_INIT_LOG() ::Meatball::Log::Init()
