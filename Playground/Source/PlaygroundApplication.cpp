@@ -3,7 +3,7 @@
 #include <iostream>
 #include <Meatball/Core.hpp>
 #include <Meatball/Core/ApplicationBuilder.hpp>
-#include <Meatball/Windowing/GlfwWindow.hpp>
+#include <Platform/Glfw/GlfwWindow.hpp>
 
 using EventType = Meatball::Events::EventType;
 

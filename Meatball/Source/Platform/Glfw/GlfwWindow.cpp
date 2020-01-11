@@ -1,4 +1,4 @@
-#include <Meatball/Windowing/GlfwWindow.hpp>
+#include <Platform/Glfw/GlfwWindow.hpp>
 #include <sstream>
 #include <GLFW/glfw3.h>
 #include <Meatball/Core/Debug.hpp>
@@ -51,6 +51,7 @@ namespace Meatball {
 		GlfwWindow::~GlfwWindow() {
 			MEATBALL_PROFILE_FUNC();
 			if (_glfwWindowCount-- == 0) {
+				MEATBALL_LOG_INFO("Terminating GLFW.");
 				glfwTerminate();
 			}
 		}
@@ -71,6 +72,7 @@ namespace Meatball {
 
 		void GlfwWindow::OnApplicationShutdown(Shared<Events::Event> event) {
 			MEATBALL_PROFILE_FUNC();
+			MEATBALL_LOG_INFO("Closing Window.");
 			glfwDestroyWindow(_glfwWindow);
 		}
 

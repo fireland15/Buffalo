@@ -1,6 +1,7 @@
 #include <Meatball/Core/Debug/Instrumentation/Profiler.hpp>
 #include <exception>
 #include <algorithm>
+#include <Meatball/Core/Debug.hpp>
 
 static Meatball::Instrumentation::Profiler PROFILER;
 
@@ -8,11 +9,6 @@ namespace Meatball {
 	namespace Instrumentation {
 		Profiler::Profiler() 
 			: profileCount(0) {
-			fileStream.open("profile.json");
-			if (!fileStream.is_open()) {
-				throw std::runtime_error("Failed to open profile.json");
-			}
-			fileStream << "[";
 		}
 
 		Profiler::~Profiler() {
@@ -37,6 +33,16 @@ namespace Meatball {
 			fileStream << "}";
 
 			fileStream.flush();
+		}
+
+		void Profiler::Init() {
+			fileStream.open("profile.json");
+			if (!fileStream.is_open()) {
+				MEATBALL_LOG_ERROR("Failed to open 'profile.json' for profiler.");
+				throw std::runtime_error("Failed to open profile.json");
+			}
+			MEATBALL_LOG_INFO("Profiler Initialized. Writing to 'profile.json'.");
+			fileStream << "[";
 		}
 
 		Profiler& GetProfiler() {

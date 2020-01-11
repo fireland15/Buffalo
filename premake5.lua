@@ -5,7 +5,7 @@ workspace "Meatball"
     configurations { "Debug", "Release" }
     filter { "configurations:Debug" }
         symbols "On"
-        defines { "MEATBALL_DEBUG", "MEATBALL_PROFILE" }
+        defines { "MEATBALL_DEBUG", "MEATBALL_PROFILE", "MEATBALL_LOG_LEVEL_TRACE" }
     filter { "configurations:Release" }
         optimize "On"
     filter { }
@@ -18,7 +18,8 @@ project "Meatball"
     cppdialect "C++17"
     includedirs {
         "%{prj.name}/Source",
-        "%{prj.name}/Dependency/Glfw/include"
+        "%{prj.name}/Dependency/Glfw/include",
+        "%{prj.name}/Dependency/spdlog/include"
     }
     files { 
         "%{prj.name}/Source/**.hpp", 
@@ -26,6 +27,7 @@ project "Meatball"
     }
     links {
         "Lib/Glfw/glfw3.lib"
+        -- "Lib/spdlog/spdlog.lib"
     }
     warnings "Extra"
     defines { "_CRT_SECURE_NO_WARNINGS" }
