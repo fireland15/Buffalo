@@ -20,7 +20,8 @@ project "Meatball"
         "%{prj.name}/Source",
         "%{prj.name}/Dependency/Glfw/include",
         "%{prj.name}/Dependency/spdlog/include",
-        "%{prj.name}/Dependency/Glad"
+        "%{prj.name}/Dependency/Glad",
+        "%{prj.name}/Dependency/glm"
     }
     files { 
         "%{prj.name}/Source/**.hpp", 

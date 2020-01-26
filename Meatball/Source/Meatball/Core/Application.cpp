@@ -30,7 +30,6 @@ namespace Meatball {
 		MEATBALL_PROFILE_FUNC();
 
 		while (running) {
-			MEATBALL_PROFILE_SCOPE("Main Loop");
 			GetEventDispatcher().DispatchEvents();
 			_window->OnUpdate();
 		}

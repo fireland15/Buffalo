@@ -67,7 +67,7 @@ namespace Meatball {
 
 		void GlfwWindow::OnUpdate() {
 			MEATBALL_PROFILE_FUNC();
-			glfwSwapBuffers(_glfwWindow);
+			_context->SwapBuffers();
 			glfwPollEvents();
 		}
 
