@@ -3,12 +3,14 @@
 #include <Meatball/Rendering/UniformVariable.hpp>
 #include <Meatball/Core/Debug.hpp>
 
+static std::string colorUniformName("u_color");
+
 namespace Meatball {
 	namespace Rendering {
 		Material::Material(const glm::vec4& color, Rendering::Program& program)
 			: color(color)
 			, program(program)
-			, colorUniform(program.GetUniform("u_color")) {
+			, colorUniform(program.GetUniform(colorUniformName)) {
 			MEATBALL_PROFILE_FUNC();
 		}
 

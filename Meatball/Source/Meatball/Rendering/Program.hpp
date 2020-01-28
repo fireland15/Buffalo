@@ -20,8 +20,8 @@ namespace Meatball {
 			~Program();
 
 			void AttachShader(Shader& shader);
-			const AttributeVariable& GetAttribute(const char* name);
-			const UniformVariable& GetUniform(const char* name);
+			const AttributeVariable& GetAttribute(const std::string& name);
+			const UniformVariable& GetUniform(const std::string& name);
 			void DetachShader(Shader& shader);
 			std::string GetInfoLog();
 			inline GLuint Handle() const { return handle; }
@@ -34,8 +34,8 @@ namespace Meatball {
 
 		private:
 			GLuint handle = 0U;
-			std::map<const char*, AttributeVariable> attributes;
-			std::map<const char*, UniformVariable> uniforms;
+			std::map<std::string, AttributeVariable> attributes;
+			std::map<std::string, UniformVariable> uniforms;
 
 			void RefreshAttributes();
 			void RefreshUniforms();

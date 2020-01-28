@@ -26,6 +26,8 @@ namespace Meatball {
 
 		inline Events::EventDispatcher& GetEventDispatcher();
 
+		virtual void OnUpdate();
+
 	private:
 
 		void OnWindowClosed(Shared<Events::Event> event);

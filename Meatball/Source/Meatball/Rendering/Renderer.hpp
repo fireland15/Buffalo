@@ -1,25 +1,37 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <stack>
 
 namespace Meatball {
     namespace Rendering {
-		class OrthographicCamera;
-		class Shader;
-		class VertexArray;
+		class Camera;
+		class Material;
+		class Mesh;
 
 		class Renderer {
 		public:
+			Renderer();
+
 			virtual ~Renderer() = default;
 
-			virtual void BeginScene(const OrthographicCamera& camera) = 0;
+			virtual void BeginScene(const Camera& camera);
 
-			virtual void DrawVertices(VertexArray* vertexArray, Shader* shader, const glm::mat4& modelMatrix) = 0;
+			virtual void Draw(Mesh& mesh, Material& material, const glm::mat4 modelMatrix);
 
-			virtual void EndScene() = 0;
-			
-		protected:
-			static Renderer* s_renderer;
+			virtual void EndScene();
+
+		private:
+			void PushMatrix(const glm::mat4& matrix);
+
+			void PopMatrix();
+
+			void ClearMatrixStack();
+
+			const glm::mat4& CurrentMatrix();
+
+		private:
+			std::stack<glm::mat4> matrixStack;
 		};
     }
 }

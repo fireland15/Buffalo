@@ -12,8 +12,8 @@ namespace Meatball {
 		class Event;
 	}
 
-	namespace OpenGL {
-		class OpenGLGraphicsContext;
+	namespace Rendering {
+		class GraphicsContext;
 	}
 
 	namespace Windowing {
@@ -52,7 +52,7 @@ namespace Meatball {
 
 			static int _glfwWindowCount;
 
-			Unique<OpenGL::OpenGLGraphicsContext> _context;
+			Unique<Rendering::GraphicsContext> _context;
 		};
 	}
 }

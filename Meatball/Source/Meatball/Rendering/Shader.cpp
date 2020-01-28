@@ -6,7 +6,7 @@
 namespace Meatball {
 	namespace Rendering {
 		Shader::Shader(ShaderType type)
-			: Type(type) { 
+			: Type(type), handle(GL::CreateShader(type)) { 
 			MEATBALL_PROFILE_FUNC();
 		}
 
@@ -30,7 +30,9 @@ namespace Meatball {
 			assert(sources.size() > 0); // can't compile because there's nothing to compile!
 			GL::CompileShader(handle);
 			if (!IsCompiled()) {
-				throw std::runtime_error(InfoLog());
+				auto infoLog = InfoLog();
+				MEATBALL_LOG_ERROR(infoLog);
+				throw std::runtime_error(infoLog);
 			}
 		}
 		

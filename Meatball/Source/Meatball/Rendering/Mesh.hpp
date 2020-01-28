@@ -3,7 +3,6 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <Meatball/Core.hpp>
-#include <glad/glad.h>
 
 namespace Meatball {
 	namespace Rendering {
@@ -22,7 +21,7 @@ namespace Meatball {
 			
 			Mesh& operator=(Mesh&&) = delete;
 
-			~Mesh() = default;
+			~Mesh();
 
 			void PreDraw();
 
@@ -36,7 +35,7 @@ namespace Meatball {
 
 			Unique<Buffer> vertexBuffer;
 
-			const static GLuint VERTEX_ATTRIB_LOCATION;
+			const static unsigned int VERTEX_ATTRIB_LOCATION;
 		};
 	}
 }

@@ -28,12 +28,12 @@ namespace Meatball {
 			GL::AttachShader(handle, shader.Handle());
 		}
 
-		const AttributeVariable& Program::GetAttribute(const char* name) {
+		const AttributeVariable& Program::GetAttribute(const std::string& name) {
 			MEATBALL_PROFILE_FUNC();
 			return attributes[name];
 		}
 
-		const UniformVariable& Program::GetUniform(const char* name) {
+		const UniformVariable& Program::GetUniform(const std::string& name) {
 			MEATBALL_PROFILE_FUNC();
 			return uniforms[name];
 		}
@@ -63,7 +63,7 @@ namespace Meatball {
 			MEATBALL_PROFILE_FUNC();
 			GLint currentProgram = 0;
 			GL::GetIntegerv(ParameterName::CurrentProgram, &currentProgram);
-			return currentProgram == handle;
+			return currentProgram == static_cast<GLint>(handle);
 		}
 
 		void Program::Link() {
@@ -84,7 +84,7 @@ namespace Meatball {
 			GLint count = 0;
 			GL::GetProgramiv(handle, ProgramParameterName::ActiveAttributes, &count);
 			for (GLint i = 0; i < count; ++i) {
-				size_t maxNameLength = 64;
+				GLsizei maxNameLength = 64;
 				std::string name(maxNameLength, '\0');
 				GLsizei length = 0;
 				GLint size = 0;
@@ -103,7 +103,7 @@ namespace Meatball {
 			GLint count = 0;
 			GL::GetProgramiv(handle, ProgramParameterName::ActiveUniforms, &count);
 			for (GLint i = 0; i < count; ++i) {
-				size_t maxNameLength = 64;
+				GLsizei maxNameLength = 64;
 				std::string name(maxNameLength, '\0');
 				GLsizei length = 0;
 				GLint size = 0;

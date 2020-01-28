@@ -44,7 +44,9 @@ project "Playground"
     cppdialect "C++17"
     includedirs {
         "%{prj.name}/Source",
-        "%{prj.name}/Dependency/spdlog/include"
+        "Meatball/Dependency/spdlog/include",
+        "Meatball/Dependency/glm",
+        "Meatball/Dependency/glad"
     }
     files {
         "%{prj.name}/Source/**.hpp",

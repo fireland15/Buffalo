@@ -17,7 +17,7 @@ namespace Meatball {
 			vertexBuffer->Reserve(vertices.size() * sizeof(glm::vec3), BufferUsage::StaticDraw);
 			vertexBuffer->SetData(vertices.data(), vertices.size() * sizeof(glm::vec3));
 
-			AttributeBufferDataPointer ptr(*vertexBuffer, 3, AttributeDataType::FloatVec3, 0, 0);
+			AttributeBufferDataPointer ptr(*vertexBuffer, 3, AttributeDataType::Float, 0, 0);
 
 			vertexArray = std::make_unique<VertexArray>();
 			vertexArray->Bind();
@@ -26,6 +26,8 @@ namespace Meatball {
 			vertexBuffer->Unbind();
 			vertexArray->Unbind();
 		}
+
+		Mesh::~Mesh() = default;
 
 		void Mesh::PreDraw() {
 			MEATBALL_PROFILE_FUNC();

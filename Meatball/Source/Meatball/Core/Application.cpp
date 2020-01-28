@@ -26,11 +26,16 @@ namespace Meatball {
 		return *_eventDispatcher;
 	}
 
+	void Application::OnUpdate() {
+
+	}
+
     void Application::Run() {
 		MEATBALL_PROFILE_FUNC();
 
 		while (running) {
 			GetEventDispatcher().DispatchEvents();
+			this->OnUpdate();
 			_window->OnUpdate();
 		}
 

@@ -17,7 +17,7 @@ namespace Meatball {
 		void Buffer::Bind(BufferTarget target) {
 			MEATBALL_PROFILE_FUNC();
 			GL::BindBuffer(target, _handle);
-			target = target;
+			_target = target;
 		}
 
 		bool Buffer::IsBound() const {

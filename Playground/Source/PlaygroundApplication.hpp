@@ -6,5 +6,8 @@
 class PlaygroundApplication : public Meatball::Application {
 public:
 	PlaygroundApplication();
-	virtual ~PlaygroundApplication();
+
+	~PlaygroundApplication();
+
+	virtual void OnUpdate() override;
 };
