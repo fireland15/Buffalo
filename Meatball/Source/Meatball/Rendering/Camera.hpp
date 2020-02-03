@@ -6,16 +6,17 @@ namespace Meatball {
 	namespace Rendering {
 		class Camera {
 		public:
-			Camera(const glm::mat4&){ }
+			Camera(const glm::mat4& m)
+				: matrix(m) { }
 
 			virtual ~Camera() = default;
 
 			const glm::mat4& ViewProjectionMatrix() const {
-				return glm::mat4(1.f);
+				return matrix;
 			}
 
-		protected:
-
+		private:
+			glm::mat4 matrix;
 		};
 	}
 }

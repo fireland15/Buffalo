@@ -5,7 +5,7 @@
 #define MEATBALL_CHECK_OPENGL_ERROR() GL::GetError()
 #endif
 #ifndef MEATBALL_DEBUG
-#define MEATBALL_LOG_OPENGL_ERROR() void(0);
+#define MEATBALL_CHECK_OPENGL_ERROR() void(0);
 #endif
 
 namespace Meatball {

@@ -29,7 +29,7 @@ namespace Meatball {
 			bool IsUsed() const;
 			void Link();
 			void SetUniform(const UniformVariable& uniform, glm::vec4& v);
-			void SetUniform(const UniformVariable& uniform, glm::mat4& v);
+			void SetUniform(const UniformVariable& uniform, const glm::mat4& v);
 			void Use();
 
 		private:

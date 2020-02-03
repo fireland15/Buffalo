@@ -21,6 +21,8 @@ namespace Meatball {
 
 			virtual void EndScene();
 
+			virtual void ClearBuffers();
+
 		private:
 			void PushMatrix(const glm::mat4& matrix);
 

@@ -51,6 +51,8 @@ namespace Meatball {
 			glfwSetKeyCallback(_glfwWindow, &GlfwWindow::glfwKeyCallback);
 			glfwSetCursorPosCallback(_glfwWindow, &GlfwWindow::glfwCursorPosCallback);
 			glfwSetMouseButtonCallback(_glfwWindow, &GlfwWindow::glfwMouseButtonCallback);
+
+			glfwSwapInterval(0);
 		}
 
 		GlfwWindow::~GlfwWindow() {

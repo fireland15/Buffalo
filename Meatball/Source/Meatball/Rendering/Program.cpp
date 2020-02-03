@@ -123,7 +123,7 @@ namespace Meatball {
 			GL::ProgramUniform4f(handle, uniform.Location, v);
 		}
 
-		void Program::SetUniform(const UniformVariable& uniform, glm::mat4& v) {
+		void Program::SetUniform(const UniformVariable& uniform, const glm::mat4& v) {
 			MEATBALL_PROFILE_FUNC();
 			assert(VerifyUniform(uniform, UniformDataType::FloatMat4));
 			GL::ProgramUniformMatrix4fv(handle, uniform.Location, 1, false, glm::value_ptr(v));

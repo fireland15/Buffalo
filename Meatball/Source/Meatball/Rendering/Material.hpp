@@ -15,12 +15,14 @@ namespace Meatball {
 
 			void PostDraw();
 
+		public:
+
+			Program& Program;
+
 		private:
 			glm::vec4 color;
 
 			const UniformVariable& colorUniform;
-
-			Program& program;
 		};
 	}
 }

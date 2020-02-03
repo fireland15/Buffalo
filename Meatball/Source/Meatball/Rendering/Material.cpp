@@ -9,15 +9,15 @@ namespace Meatball {
 	namespace Rendering {
 		Material::Material(const glm::vec4& color, Rendering::Program& program)
 			: color(color)
-			, program(program)
+			, Program(program)
 			, colorUniform(program.GetUniform(colorUniformName)) {
 			MEATBALL_PROFILE_FUNC();
 		}
 
 		void Material::PreDraw() {
 			MEATBALL_PROFILE_FUNC();
-			program.Use();
-			program.SetUniform(colorUniform, color);
+			Program.Use();
+			Program.SetUniform(colorUniform, color);
 		}
 
 		void Material::PostDraw() {

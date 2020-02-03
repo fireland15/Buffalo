@@ -3,6 +3,9 @@
 #include <Meatball/Rendering/Material.hpp>
 #include <Meatball/Rendering/Mesh.hpp>
 #include <Meatball/Rendering/GL.hpp>
+#include <Meatball/Rendering/Program.hpp>
+
+static std::string MVP_MATRIX_UNIFORM_NAME("u_mvp");
 
 namespace Meatball {
 	namespace Rendering {
@@ -19,6 +22,8 @@ namespace Meatball {
 			const auto& currentMatrix = CurrentMatrix();
 
 			material.PreDraw();
+			auto& mvpUniform = material.Program.GetUniform(MVP_MATRIX_UNIFORM_NAME);
+			material.Program.SetUniform(mvpUniform, currentMatrix);
 			mesh.PreDraw();
 			GL::DrawArrays(PrimitiveDrawMode::Triangles, 0, mesh.VertexCount);
 			mesh.PostDraw();
@@ -31,9 +36,13 @@ namespace Meatball {
 
 		}
 
+		void Renderer::ClearBuffers() {
+			GL::Clear(GL_COLOR_BUFFER_BIT);
+		}
+
 		void Renderer::PushMatrix(const glm::mat4& matrix) {
 			const auto& top = matrixStack.top();
-			matrixStack.emplace(matrix * top);
+			matrixStack.push(top * matrix);
 		}
 
 		void Renderer::PopMatrix() {
