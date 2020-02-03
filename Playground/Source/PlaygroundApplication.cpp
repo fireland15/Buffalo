@@ -11,6 +11,7 @@
 #include <Meatball/Rendering/Material.hpp>
 #include <Meatball/Rendering/Renderer.hpp>
 #include <Meatball/Rendering/Camera.hpp>
+#include <Meatball/Rendering/OrthographicCamera.hpp>
 #include <Meatball/Core.hpp>
 #include <Meatball/Core/Debug.hpp>
 #include <Meatball/Rendering/Model.hpp>
@@ -20,7 +21,7 @@ static Meatball::Unique<Meatball::Rendering::Material> material;
 static Meatball::Unique<Meatball::Rendering::Program> program;
 static Meatball::Unique<Meatball::Rendering::Model> model;
 static Meatball::Unique<Meatball::Rendering::Renderer> renderer;
-static Meatball::Rendering::Camera camera(glm::mat4(1.f));
+static Meatball::Rendering::OrthographicCamera camera(1.f);
 
 std::string vertexSource = R"x(
 #version 410
@@ -81,9 +82,6 @@ PlaygroundApplication::~PlaygroundApplication() {
 }
 
 void PlaygroundApplication::OnUpdate() {
-	auto translation = model->GetTranslation();
-	translation.x -= 0.0001f;
-	model->SetTranslation(translation);
 
 	renderer->ClearBuffers();
 	renderer->BeginScene(camera);

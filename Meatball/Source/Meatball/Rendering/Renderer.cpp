@@ -18,7 +18,7 @@ namespace Meatball {
 		void Renderer::BeginScene(const Camera& camera) {
 			MEATBALL_PROFILE_FUNC();
 			ClearMatrixStack();
-			PushMatrix(camera.ViewProjectionMatrix());
+			PushMatrix(camera.GetViewProjectionMatrix());
 		}
 
 		void Renderer::Draw(Mesh& mesh, Material& material, const glm::mat4 modelMatrix) {
