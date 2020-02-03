@@ -13,11 +13,13 @@
 #include <Meatball/Rendering/Camera.hpp>
 #include <Meatball/Core.hpp>
 #include <Meatball/Core/Debug.hpp>
+#include <Meatball/Rendering/Model.hpp>
 
 static Meatball::Unique<Meatball::Rendering::Mesh> mesh;
 static Meatball::Unique<Meatball::Rendering::Material> material;
 static Meatball::Unique<Meatball::Rendering::Program> program;
-static Meatball::Rendering::Renderer renderer;
+static Meatball::Unique<Meatball::Rendering::Model> model;
+static Meatball::Unique<Meatball::Rendering::Renderer> renderer;
 static Meatball::Rendering::Camera camera(glm::mat4(1.f));
 
 std::string vertexSource = R"x(
@@ -40,51 +42,9 @@ void main() {
 }
 )x";
 
-class Model {
-public:
-	Model(Meatball::Rendering::Material& material, Meatball::Rendering::Mesh& mesh) 
-		: Material(material), Mesh(mesh), _modelMatrix(1.f), _translation(0.f) {
-		RecalculateModelMatrix();
-	}
-
-	Model(const Model&) = delete;
-	Model(Model&&) = delete;
-
-	void SetTranslation(const glm::vec3& translation) {
-		_translation = translation;
-		RecalculateModelMatrix();
-	}
-
-	const glm::vec3& GetTranslation() {
-		return _translation;
-	}
-
-	const glm::mat4& GetModelMatrix() {
-		return _modelMatrix;
-	}
-
-public:
-	Meatball::Rendering::Material& Material;
-
-	Meatball::Rendering::Mesh& Mesh;
-	   
-private:
-
-	void RecalculateModelMatrix() {
-		_modelMatrix = glm::translate(_translation);
-	}
-
-private:
-	glm::mat4 _modelMatrix;
-
-	glm::vec3 _translation;
-
-};
-
-static Meatball::Unique<Model> MODEL;
-
 PlaygroundApplication::PlaygroundApplication()
 		: Application() {
+	renderer = std::make_unique<Meatball::Rendering::Renderer>();
 	std::vector<glm::vec3> vertices;
 	vertices.emplace_back(0.f, 0.f, 0.f);
 	vertices.emplace_back(0.f, 1.f, 0.f);
@@ -111,7 +71,7 @@ PlaygroundApplication::PlaygroundApplication()
 
 	material = std::make_unique<Meatball::Rendering::Material>(glm::vec4(1.f, 0.5f, 0.75f, 1.f), *program);
 
-	MODEL = std::make_unique<Model>(*material, *mesh);
+	model = std::make_unique<Meatball::Rendering::Model>(*material, *mesh);
 }
 
 PlaygroundApplication::~PlaygroundApplication() {
@@ -121,14 +81,14 @@ PlaygroundApplication::~PlaygroundApplication() {
 }
 
 void PlaygroundApplication::OnUpdate() {
-	auto translation = MODEL->GetTranslation();
+	auto translation = model->GetTranslation();
 	translation.x -= 0.0001f;
-	MODEL->SetTranslation(translation);
+	model->SetTranslation(translation);
 
-	renderer.ClearBuffers();
-	renderer.BeginScene(camera);
-	renderer.Draw(MODEL->Mesh, MODEL->Material, MODEL->GetModelMatrix());
-	renderer.EndScene();
+	renderer->ClearBuffers();
+	renderer->BeginScene(camera);
+	renderer->Draw(model->GetMesh(), model->GetMaterial(), model->GetModelMatrix());
+	renderer->EndScene();
 
 }
 
