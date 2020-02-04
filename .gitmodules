@@ -1,0 +1,9 @@
+[submodule "Buffalo/Dependency/glm"]
+	path = Buffalo/Dependency/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "Buffalo/Dependency/spdlog"]
+	path = Buffalo/Dependency/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "Buffalo/Dependency/glfw"]
+	path = Buffalo/Dependency/glfw
+	url = https://github.com/glfw/glfw.git
