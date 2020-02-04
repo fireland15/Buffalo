@@ -1,11 +1,11 @@
-workspace "Meatball"
+workspace "Buffalo"
     startproject "Playground"
     architecture "x86_64"
     location "Build"
     configurations { "Debug", "Release" }
     filter { "configurations:Debug" }
         symbols "On"
-        defines { "MEATBALL_DEBUG", "MEATBALL_PROFILE", "MEATBALL_LOG_LEVEL_TRACE" }
+        defines { "BUFFALO_DEBUG", "BUFFALO_PROFILE", "BUFFALO_LOG_LEVEL_TRACE" }
     filter { "configurations:Release" }
         optimize "On"
     filter { }
@@ -13,7 +13,7 @@ workspace "Meatball"
     targetdir ("Bin/%{prj.name}/%{cfg.longname}")
     objdir ("Bin/Obj/%{prj.name}/%{cfg.longname}")
 
-project "Meatball"
+project "Buffalo"
     kind "StaticLib"
     cppdialect "C++17"
     includedirs {
@@ -34,22 +34,24 @@ project "Meatball"
     warnings "Extra"
     defines { "_CRT_SECURE_NO_WARNINGS" }
 
-function useMeatball()
-    includedirs "Meatball/Source"
-    links "Meatball"
+function useBuffalo()
+    includedirs {
+        "Buffalo/Source",
+        "Buffalo/Dependency/spdlog/include",
+        "Buffalo/Dependency/glm",
+        "Buffalo/Dependency/glad"
+    }
+    links "Buffalo"
 end
 
 project "Playground"
     kind "ConsoleApp"
     cppdialect "C++17"
     includedirs {
-        "%{prj.name}/Source",
-        "Meatball/Dependency/spdlog/include",
-        "Meatball/Dependency/glm",
-        "Meatball/Dependency/glad"
+        "%{prj.name}/Source"
     }
     files {
         "%{prj.name}/Source/**.hpp",
         "%{prj.name}/Source/**.cpp"
     }
-    useMeatball()
+    useBuffalo()

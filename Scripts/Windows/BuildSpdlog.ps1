@@ -1,5 +1,5 @@
 $buildPath = "..\..\Build\Dependency\spdlog"
-$spdlogPath = "..\..\Meatball\Dependency\spdlog"
+$spdlogPath = "..\..\Buffalo\Dependency\spdlog"
 $outDir = "..\..\Lib\spdlog\"
 
 $absBuildPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($buildPath);

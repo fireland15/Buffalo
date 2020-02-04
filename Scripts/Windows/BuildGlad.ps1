@@ -1,5 +1,5 @@
 $buildPath = "..\..\Build\Dependency\Glad"
-$gladPath = "..\..\Meatball\Dependency\Glad"
+$gladPath = "..\..\Buffalo\Dependency\Glad"
 $outDir = "..\..\Lib\Glad\"
 
 $absBuildPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($buildPath);

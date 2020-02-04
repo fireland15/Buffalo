@@ -1,9 +1,9 @@
 #pragma once
 
 #include <iostream>
-#include <Meatball/Core/Application.hpp>
+#include <Buffalo/Core/Application.hpp>
 
-class PlaygroundApplication : public Meatball::Application {
+class PlaygroundApplication : public Buffalo::Application {
 public:
 	PlaygroundApplication();
 

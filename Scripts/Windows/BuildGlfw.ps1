@@ -1,5 +1,5 @@
 $buildPath = "..\..\Build\Dependency\Glfw"
-$glfwPath = "..\..\Meatball\Dependency\Glfw"
+$glfwPath = "..\..\Buffalo\Dependency\Glfw"
 $outDir = "..\..\Lib\Glfw\"
 
 $absBuildPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($buildPath);

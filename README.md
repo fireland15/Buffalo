@@ -1,4 +1,4 @@
-# Meatball
+# Buffalo
 
 ## Requirements
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 buildPath=../../Build/Dependency/Glfw
-glfwPath=../../Meatball/Dependency/GLfw
+glfwPath=../../Buffalo/Dependency/GLfw
 outDir=../../Lib/Glfw
 
 echo Build Path: $buildPath
@@ -31,7 +31,7 @@ function GenerateGlfwProjects() {
     fi
     cd Glfw 
 
-    cmake ../../../Meatball/Dependency/Glfw -G "Unix Makefiles" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF
+    cmake ../../../Buffalo/Dependency/Glfw -G "Unix Makefiles" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF
 }
 
 function BuildGlfw() {

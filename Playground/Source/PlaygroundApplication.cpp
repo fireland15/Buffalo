@@ -4,24 +4,24 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
-#include <Meatball/Rendering/Material.hpp>
-#include <Meatball/Rendering/Mesh.hpp>
-#include <Meatball/Rendering/Program.hpp>
-#include <Meatball/Rendering/Shader.hpp>
-#include <Meatball/Rendering/Material.hpp>
-#include <Meatball/Rendering/Renderer.hpp>
-#include <Meatball/Rendering/Camera.hpp>
-#include <Meatball/Rendering/OrthographicCamera.hpp>
-#include <Meatball/Core.hpp>
-#include <Meatball/Core/Debug.hpp>
-#include <Meatball/Rendering/Model.hpp>
+#include <Buffalo/Rendering/Material.hpp>
+#include <Buffalo/Rendering/Mesh.hpp>
+#include <Buffalo/Rendering/Program.hpp>
+#include <Buffalo/Rendering/Shader.hpp>
+#include <Buffalo/Rendering/Material.hpp>
+#include <Buffalo/Rendering/Renderer.hpp>
+#include <Buffalo/Rendering/Camera.hpp>
+#include <Buffalo/Rendering/OrthographicCamera.hpp>
+#include <Buffalo/Core.hpp>
+#include <Buffalo/Core/Debug.hpp>
+#include <Buffalo/Rendering/Model.hpp>
 
-static Meatball::Unique<Meatball::Rendering::Mesh> mesh;
-static Meatball::Unique<Meatball::Rendering::Material> material;
-static Meatball::Unique<Meatball::Rendering::Program> program;
-static Meatball::Unique<Meatball::Rendering::Model> model;
-static Meatball::Unique<Meatball::Rendering::Renderer> renderer;
-static Meatball::Rendering::OrthographicCamera camera(1.f);
+static Buffalo::Unique<Buffalo::Rendering::Mesh> mesh;
+static Buffalo::Unique<Buffalo::Rendering::Material> material;
+static Buffalo::Unique<Buffalo::Rendering::Program> program;
+static Buffalo::Unique<Buffalo::Rendering::Model> model;
+static Buffalo::Unique<Buffalo::Rendering::Renderer> renderer;
+static Buffalo::Rendering::OrthographicCamera camera(1.f);
 
 std::string vertexSource = R"x(
 #version 410
@@ -45,23 +45,23 @@ void main() {
 
 PlaygroundApplication::PlaygroundApplication()
 		: Application() {
-	renderer = std::make_unique<Meatball::Rendering::Renderer>();
+	renderer = std::make_unique<Buffalo::Rendering::Renderer>();
 	std::vector<glm::vec3> vertices;
 	vertices.emplace_back(0.f, 0.f, 0.f);
 	vertices.emplace_back(0.f, 1.f, 0.f);
 	vertices.emplace_back(1.f, 1.f, 0.f);
 
-	mesh = std::make_unique<Meatball::Rendering::Mesh>(vertices);
+	mesh = std::make_unique<Buffalo::Rendering::Mesh>(vertices);
 
-	Meatball::Rendering::Shader vertexShader(Meatball::Rendering::ShaderType::Vertex);
+	Buffalo::Rendering::Shader vertexShader(Buffalo::Rendering::ShaderType::Vertex);
 	vertexShader.AddSource(vertexSource);
 	vertexShader.Compile();
 
-	Meatball::Rendering::Shader fragmentShader(Meatball::Rendering::ShaderType::Fragment);
+	Buffalo::Rendering::Shader fragmentShader(Buffalo::Rendering::ShaderType::Fragment);
 	fragmentShader.AddSource(fragmentSource);
 	fragmentShader.Compile();
 
-	program = std::make_unique<Meatball::Rendering::Program>();
+	program = std::make_unique<Buffalo::Rendering::Program>();
 	program->AttachShader(vertexShader);
 	program->AttachShader(fragmentShader);
 	program->Link();
@@ -70,9 +70,9 @@ PlaygroundApplication::PlaygroundApplication()
 	vertexShader.~Shader();
 	fragmentShader.~Shader();
 
-	material = std::make_unique<Meatball::Rendering::Material>(glm::vec4(1.f, 0.5f, 0.75f, 1.f), *program);
+	material = std::make_unique<Buffalo::Rendering::Material>(glm::vec4(1.f, 0.5f, 0.75f, 1.f), *program);
 
-	model = std::make_unique<Meatball::Rendering::Model>(*material, *mesh);
+	model = std::make_unique<Buffalo::Rendering::Model>(*material, *mesh);
 }
 
 PlaygroundApplication::~PlaygroundApplication() {
@@ -90,6 +90,6 @@ void PlaygroundApplication::OnUpdate() {
 
 }
 
-Meatball::Unique<Meatball::Application> Meatball::CreateApplication() {
+Buffalo::Unique<Buffalo::Application> Buffalo::CreateApplication() {
 	return std::make_unique<PlaygroundApplication>();
 }
