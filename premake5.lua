@@ -6,9 +6,12 @@ workspace "Buffalo"
     filter { "configurations:Debug" }
         symbols "On"
         defines { "BUFFALO_DEBUG", "BUFFALO_PROFILE", "BUFFALO_LOG_LEVEL_TRACE" }
+        flags { }
     filter { "configurations:Release" }
         optimize "On"
+        flags { "LinkTimeOptimization" }
     filter { }
+    flags { "MultiProcessorCompile" }
 
     targetdir ("Bin/%{prj.name}/%{cfg.longname}")
     objdir ("Bin/Obj/%{prj.name}/%{cfg.longname}")

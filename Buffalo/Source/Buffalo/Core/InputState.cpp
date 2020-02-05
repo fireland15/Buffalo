@@ -7,14 +7,14 @@ namespace Buffalo {
 
 	void InputState::SetAdapter(Core::WindowInputAdapter* windowAdapter) {
 		BUFFALO_PROFILE_FUNC();
-		BUFFALO_LOG_TRACE("Initializing InputState");
+		BUFFALO_LOG_DEBUG("Initializing InputState");
 		assert(windowAdapter != nullptr);
 		adapter = windowAdapter;
 	}
 
 	void InputState::ReleaseAdapter() {
 		BUFFALO_PROFILE_FUNC();
-		BUFFALO_LOG_TRACE("Removed InputState window adapter");
+		BUFFALO_LOG_DEBUG("Removed InputState window adapter");
 		adapter = nullptr;
 	}
 

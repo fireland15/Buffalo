@@ -107,7 +107,7 @@ namespace Buffalo {
 			EventBus::Publish<Events::WindowClosedEvent>();
 		}
 
-		void GlfwWindow::HandleKeyEvent(int key, int scancode, int action, int mods) {
+		void GlfwWindow::HandleKeyEvent(int key, int, int action, int) {
 			BUFFALO_PROFILE_FUNC();
 			switch (action) {
 			case GLFW_RELEASE:
@@ -127,7 +127,7 @@ namespace Buffalo {
 			EventBus::Publish<Events::MouseMovedEvent>(xpos, ypos);
 		}
 
-		void GlfwWindow::HandleMouseButtonEvent(int button, int action, int mods) {
+		void GlfwWindow::HandleMouseButtonEvent(int button, int action, int) {
 			BUFFALO_PROFILE_FUNC();
 			switch (action) {
 			case GLFW_PRESS:
