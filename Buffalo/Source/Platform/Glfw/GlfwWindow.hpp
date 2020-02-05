@@ -16,6 +16,10 @@ namespace Buffalo {
 		class GraphicsContext;
 	}
 
+	namespace Core {
+		class WindowInputAdapter;
+	}
+
 	namespace Windowing {
 		class GlfwWindow : public Window {
 		public:
@@ -51,6 +55,8 @@ namespace Buffalo {
 			GLFWwindow* _glfwWindow;
 
 			static int _glfwWindowCount;
+
+			Unique<Core::WindowInputAdapter> _inputAdapter;
 
 			Unique<Rendering::GraphicsContext> _context;
 		};

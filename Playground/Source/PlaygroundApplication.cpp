@@ -15,6 +15,7 @@
 #include <Buffalo/Core.hpp>
 #include <Buffalo/Core/Debug.hpp>
 #include <Buffalo/Rendering/Model.hpp>
+#include <Buffalo/Events/EventDispatcher.hpp>
 
 static Buffalo::Unique<Buffalo::Rendering::Mesh> mesh;
 static Buffalo::Unique<Buffalo::Rendering::Material> material;
@@ -82,7 +83,6 @@ PlaygroundApplication::~PlaygroundApplication() {
 }
 
 void PlaygroundApplication::OnUpdate() {
-
 	renderer->ClearBuffers();
 	renderer->BeginScene(camera);
 	renderer->Draw(model->GetMesh(), model->GetMaterial(), model->GetModelMatrix());

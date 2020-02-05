@@ -2,6 +2,7 @@
 #include <sstream>
 #include <GLFW/glfw3.h>
 #include <Buffalo/Core/Debug.hpp>
+#include <Buffalo/Core/InputState.hpp>
 #include <Buffalo/Core/Keys.hpp>
 #include <Buffalo/Events/EventBus.hpp>
 #include <Buffalo/Events/WindowEvent.hpp>
@@ -10,6 +11,7 @@
 #include <Buffalo/Events/EventDispatcher.hpp>
 #include <Buffalo/Rendering/GraphicsContext.hpp>
 #include <Buffalo/Events/EventBus.hpp>
+#include <Platform/Glfw/GlfwInputAdapter.hpp>
 
 namespace Buffalo {
 	namespace Windowing {
@@ -47,6 +49,9 @@ namespace Buffalo {
 			_context = std::make_unique<Rendering::GraphicsContext>(_glfwWindow);
 			_context->Init();
 
+			_inputAdapter = std::make_unique<Core::GlfwInputAdapter>(_glfwWindow);
+			InputState::SetAdapter(_inputAdapter.get());
+
 			glfwSetWindowUserPointer(_glfwWindow, static_cast<void*>(this));
 			glfwSetWindowCloseCallback(_glfwWindow, &GlfwWindow::glfwWindowCloseCallback);
 			glfwSetKeyCallback(_glfwWindow, &GlfwWindow::glfwKeyCallback);
@@ -62,6 +67,8 @@ namespace Buffalo {
 				BUFFALO_LOG_INFO("Terminating GLFW.");
 				glfwTerminate();
 			}
+
+			InputState::ReleaseAdapter();
 		}
 
 		//////////////////////////////////////
