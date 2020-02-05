@@ -6,7 +6,6 @@
 
 namespace Buffalo {
 	namespace Events {
-		class EventBus;
 		class EventDispatcher;
 	}
 
@@ -23,8 +22,6 @@ namespace Buffalo {
 
 		protected:
 			Events::EventDispatcher& GetEventDispatcher();
-
-			Events::EventBus& GetEventBus();
 
 		private:
 			Unique<Events::EventDispatcher> _eventDispatcher;

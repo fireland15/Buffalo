@@ -10,17 +10,14 @@
 
 namespace Buffalo {
     Application::Application()
-		: _eventBus(std::make_unique<Events::EventBus>()), _window(std::make_unique<Windowing::GlfwWindow>(this->_eventBus->GetDispatcher())), _eventDispatcher(this->_eventBus->GetDispatcher()) {
+		: _eventDispatcher(EventBus::GetDispatcher())
+		, _window(std::make_unique<Windowing::GlfwWindow>(EventBus::GetDispatcher())) {
 		GetEventDispatcher().AddEventHandler(Events::EventType::WindowClosed, BUFFALO_BIND_EVENT_HANDLER(Application::OnWindowClosed));
     }
 
     Application::~Application() {
 
     }
-
-	Events::EventBus& Application::GetEventBus() {
-		return *_eventBus; 
-	}
 
 	Events::EventDispatcher& Application::GetEventDispatcher() {
 		return *_eventDispatcher;

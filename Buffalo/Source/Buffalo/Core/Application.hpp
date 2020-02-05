@@ -5,7 +5,6 @@
 namespace Buffalo {
 	namespace Events {
 		class Event;
-		class EventBus;
 		class EventDispatcher;
 	}
 
@@ -21,9 +20,7 @@ namespace Buffalo {
 		void Run();
 
 	protected:
-
-		inline Events::EventBus& GetEventBus();
-
+		
 		inline Events::EventDispatcher& GetEventDispatcher();
 
 		virtual void OnUpdate();
@@ -33,7 +30,6 @@ namespace Buffalo {
 		void OnWindowClosed(Shared<Events::Event> event);
 
 	private:
-		Unique<Events::EventBus> _eventBus;
 		Unique<Events::EventDispatcher> _eventDispatcher;
 		Unique<Windowing::Window> _window;
 		bool running = true;

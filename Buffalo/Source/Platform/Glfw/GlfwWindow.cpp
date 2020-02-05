@@ -9,6 +9,7 @@
 #include <Buffalo/Events/MouseEvent.hpp>
 #include <Buffalo/Events/EventDispatcher.hpp>
 #include <Buffalo/Rendering/GraphicsContext.hpp>
+#include <Buffalo/Events/EventBus.hpp>
 
 namespace Buffalo {
 	namespace Windowing {
@@ -96,17 +97,17 @@ namespace Buffalo {
 
 		void GlfwWindow::HandleWindowClosed() {
 			BUFFALO_PROFILE_FUNC();
-			GetEventBus().Publish<Events::WindowClosedEvent>();
+			EventBus::Publish<Events::WindowClosedEvent>();
 		}
 
 		void GlfwWindow::HandleKeyEvent(int key, int scancode, int action, int mods) {
 			BUFFALO_PROFILE_FUNC();
 			switch (action) {
 			case GLFW_RELEASE:
-				GetEventBus().Publish<Events::KeyReleasedEvent>(static_cast<Key>(key));
+				EventBus::Publish<Events::KeyReleasedEvent>(static_cast<Key>(key));
 				return;
 			case GLFW_PRESS:
-				GetEventBus().Publish<Events::KeyPressedEvent>(static_cast<Key>(key));
+				EventBus::Publish<Events::KeyPressedEvent>(static_cast<Key>(key));
 				return;
 			case GLFW_REPEAT:
 			default:
@@ -116,17 +117,17 @@ namespace Buffalo {
 
 		void GlfwWindow::HandleCursorPosEvent(double xpos, double ypos) {
 			BUFFALO_PROFILE_FUNC();
-			GetEventBus().Publish<Events::MouseMovedEvent>(xpos, ypos);
+			EventBus::Publish<Events::MouseMovedEvent>(xpos, ypos);
 		}
 
 		void GlfwWindow::HandleMouseButtonEvent(int button, int action, int mods) {
 			BUFFALO_PROFILE_FUNC();
 			switch (action) {
 			case GLFW_PRESS:
-				GetEventBus().Publish<Events::MouseButtonPressedEvent>(static_cast<MouseCodes>(button));
+				EventBus::Publish<Events::MouseButtonPressedEvent>(static_cast<MouseCodes>(button));
 				return;
 			case GLFW_RELEASE:
-				GetEventBus().Publish<Events::MouseButtonReleasedEvent>(static_cast<MouseCodes>(button));
+				EventBus::Publish<Events::MouseButtonReleasedEvent>(static_cast<MouseCodes>(button));
 				return;
 			default:
 				return;

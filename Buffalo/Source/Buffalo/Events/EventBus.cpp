@@ -4,42 +4,42 @@
 #include <Buffalo/Events/EventDispatcher.hpp>
 
 namespace Buffalo {
-	namespace Events {
-		void EventBus::PublishEvent(Shared<Event> event) {
-			BUFFALO_PROFILE_FUNC();
-			if (!event) {
-				return;
-			}
-			auto type = event->GetType();
-			auto receiversForTypeFindResult = receivers.find(type);
-			if (receiversForTypeFindResult == receivers.end()) {
-				return;
-			}
-			auto& receiversForType = receiversForTypeFindResult->second;
-			for (auto receiver : receiversForType) {
-				receiver->Push(event);
-			}
-		}
+	EventBus EventBus::_instance;
 
-		void EventBus::RemoveEventReceiver(EventReceiver* receiver) {
-			BUFFALO_PROFILE_FUNC();
-			for (auto& pair : receivers) {
-				auto& receiversForType = pair.second;
-				receiversForType.erase(receiver);
-			}
+	void EventBus::PublishEvent(Shared<Events::Event> event) {
+		BUFFALO_PROFILE_FUNC();
+		if (!event) {
+			return;
 		}
+		auto type = event->GetType();
+		auto receiversForTypeFindResult = receivers.find(type);
+		if (receiversForTypeFindResult == receivers.end()) {
+			return;
+		}
+		auto& receiversForType = receiversForTypeFindResult->second;
+		for (auto receiver : receiversForType) {
+			receiver->Push(event);
+		}
+	}
 
-		void EventBus::AddEventReceiver(EventReceiver* receiver, EventType type) {
-			BUFFALO_PROFILE_FUNC();
-			if (receivers.count(type) == 0) {
-				receivers.emplace(type, std::set<EventReceiver*>());
-			}
-			receivers[type].emplace(std::ref(receiver));
+	void EventBus::RemoveEventReceiver(Events::EventReceiver* receiver) {
+		BUFFALO_PROFILE_FUNC();
+		for (auto& pair : _instance.receivers) {
+			auto& receiversForType = pair.second;
+			receiversForType.erase(receiver);
 		}
+	}
 
-		Unique<EventDispatcher> EventBus::GetDispatcher() {
-			BUFFALO_PROFILE_FUNC();
-			return std::make_unique<EventDispatcher>(*this);
+	void EventBus::AddEventReceiver(Events::EventReceiver* receiver, Events::EventType type) {
+		BUFFALO_PROFILE_FUNC();
+		if (_instance.receivers.count(type) == 0) {
+			_instance.receivers.emplace(type, std::set<Events::EventReceiver*>());
 		}
+		_instance.receivers[type].emplace(std::ref(receiver));
+	}
+
+	Unique<Events::EventDispatcher> EventBus::GetDispatcher() {
+		BUFFALO_PROFILE_FUNC();
+		return std::make_unique<Events::EventDispatcher>();
 	}
 }
