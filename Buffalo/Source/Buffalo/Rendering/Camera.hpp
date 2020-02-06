@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 namespace Buffalo {
 	namespace Rendering {
@@ -14,6 +15,8 @@ namespace Buffalo {
 
 			void SetLocation(const glm::vec3& location);
 
+			void ApplyRotation(const glm::quat& rotation);
+
 		protected:
 			virtual glm::mat4 CalculateViewMatrix() = 0;
 
@@ -23,6 +26,8 @@ namespace Buffalo {
 
 		protected:
 			glm::vec3 location;
+
+			glm::quat orientation;
 
 			glm::mat4 viewMatrix;
 

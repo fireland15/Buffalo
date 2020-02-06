@@ -16,6 +16,8 @@ namespace Buffalo {
 
 			virtual const char* GetName() { return "MouseMoved"; }
 
+			inline glm::vec2 GetPosition() { return { _xpos, _ypos }; }
+
 		private:
 
 			double _xpos;

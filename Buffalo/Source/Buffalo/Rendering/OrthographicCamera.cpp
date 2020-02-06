@@ -13,7 +13,9 @@ namespace Buffalo {
 		}
 
 		glm::mat4 OrthographicCamera::CalculateViewMatrix() {
-			return glm::lookAt(location, glm::vec3(0.f), glm::vec3(0.f, 1.f, 0.f));
+			glm::mat4 rotation = glm::mat4_cast(orientation);
+			glm::mat4 translation = glm::translate(glm::mat4(1.f), -location);
+			return rotation * translation;
 		}
 
 		glm::mat4 OrthographicCamera::CalculateProjectionMatrix() {

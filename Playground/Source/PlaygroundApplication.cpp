@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 #include <Buffalo/Rendering/Material.hpp>
 #include <Buffalo/Rendering/Mesh.hpp>
@@ -15,7 +17,9 @@
 #include <Buffalo/Core.hpp>
 #include <Buffalo/Core/Debug.hpp>
 #include <Buffalo/Rendering/Model.hpp>
+#include <Buffalo/Rendering/CameraController.hpp>
 #include <Buffalo/Events/EventDispatcher.hpp>
+#include <Buffalo/Core/TimeStep.hpp>
 
 static Buffalo::Unique<Buffalo::Rendering::Mesh> mesh;
 static Buffalo::Unique<Buffalo::Rendering::Material> material;
@@ -43,6 +47,31 @@ void main() {
 	color = v_color;
 }
 )x";
+
+class PlaygroundCameraController : public Buffalo::Rendering::CameraController {
+public:
+	PlaygroundCameraController(Buffalo::Rendering::Camera& camera)
+		: Buffalo::Rendering::CameraController(camera) { 
+
+	}
+
+	virtual ~PlaygroundCameraController() = default;
+
+	virtual void OnUpdate(const Buffalo::Core::TimeStep& timestep) override {
+		glm::vec2 currentMousePos = Buffalo::InputState::GetMousePosition();
+		auto mouseDiff = currentMousePos - previousMousePos;
+		previousMousePos = currentMousePos;
+
+		camera.SetLocation(glm::vec3(currentMousePos * 0.001f, 1.f));
+	}
+
+private:
+
+private:
+	glm::vec2 previousMousePos;
+};
+
+static PlaygroundCameraController cameraController(camera);
 
 PlaygroundApplication::PlaygroundApplication()
 		: Application() {
@@ -82,7 +111,12 @@ PlaygroundApplication::~PlaygroundApplication() {
 	program.release();
 }
 
+static float pos = 0.0f;
+
 void PlaygroundApplication::OnUpdate() {
+	Buffalo::Core::TimeStep ts;
+	cameraController.OnUpdate(ts);
+
 	renderer->ClearBuffers();
 	renderer->BeginScene(camera);
 	renderer->Draw(model->GetMesh(), model->GetMaterial(), model->GetModelMatrix());
