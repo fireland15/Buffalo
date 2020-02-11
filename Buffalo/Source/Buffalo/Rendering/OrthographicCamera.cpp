@@ -5,21 +5,21 @@
 namespace Buffalo {
 	namespace Rendering {
 		OrthographicCamera::OrthographicCamera(float aspectRatio)
-			: aspectRatio(aspectRatio)
+			: _aspectRatio(aspectRatio)
 			, Camera(glm::mat4(), glm::mat4()) {
-			viewMatrix = CalculateViewMatrix();
-			projectionMatrix = CalculateProjectionMatrix();
-			viewProjectionMatrix = CalculateViewProjectionMatrix();
+			_viewMatrix = CalculateViewMatrix();
+			_projectionMatrix = CalculateProjectionMatrix();
+			_viewProjectionMatrix = CalculateViewProjectionMatrix();
 		}
 
 		glm::mat4 OrthographicCamera::CalculateViewMatrix() {
-			glm::mat4 rotation = glm::mat4_cast(orientation);
-			glm::mat4 translation = glm::translate(glm::mat4(1.f), -location);
+			glm::mat4 rotation = glm::mat4_cast(_orientation);
+			glm::mat4 translation = glm::translate(glm::mat4(1.f), -_location);
 			return rotation * translation;
 		}
 
 		glm::mat4 OrthographicCamera::CalculateProjectionMatrix() {
-			return glm::ortho(-aspectRatio, aspectRatio, -1.f, 1.f, 0.0001f, 100.0f);
+			return glm::ortho(-_aspectRatio, _aspectRatio, -1.f, 1.f, 0.0001f, 100.0f);
 		}
 	}
 }

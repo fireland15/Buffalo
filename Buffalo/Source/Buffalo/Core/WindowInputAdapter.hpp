@@ -15,6 +15,8 @@ namespace Buffalo {
 			virtual bool IsMouseButtonPressed(MouseCodes mouseCode) = 0;
 
 			virtual glm::vec2 GetMousePosition() = 0;
+
+			virtual glm::vec2 GetMousePositionDifferential() = 0;
 		};
 	}
 }

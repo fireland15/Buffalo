@@ -20,6 +20,7 @@
 #include <Buffalo/Rendering/CameraController.hpp>
 #include <Buffalo/Events/EventDispatcher.hpp>
 #include <Buffalo/Core/TimeStep.hpp>
+#include <Buffalo/Rendering/MeshFactory.hpp>
 
 static Buffalo::Unique<Buffalo::Rendering::Mesh> mesh;
 static Buffalo::Unique<Buffalo::Rendering::Material> material;
@@ -51,24 +52,21 @@ void main() {
 class PlaygroundCameraController : public Buffalo::Rendering::CameraController {
 public:
 	PlaygroundCameraController(Buffalo::Rendering::Camera& camera)
-		: Buffalo::Rendering::CameraController(camera) { 
-
+		: Buffalo::Rendering::CameraController(camera)
+		, pitchYaw() { 
 	}
 
 	virtual ~PlaygroundCameraController() = default;
 
 	virtual void OnUpdate(const Buffalo::Core::TimeStep& timestep) override {
-		glm::vec2 currentMousePos = Buffalo::InputState::GetMousePosition();
-		auto mouseDiff = currentMousePos - previousMousePos;
-		previousMousePos = currentMousePos;
-
-		camera.SetLocation(glm::vec3(currentMousePos * 0.001f, 1.f));
+		auto mouseDiff = Buffalo::InputState::GetMousePositionDifferential();
+		pitchYaw += glm::vec2(glm::radians(0.1f * mouseDiff.y), glm::radians(0.1f * mouseDiff.x));
+		glm::quat rotation(glm::vec3(pitchYaw, 0.f));
+		camera.SetOrientation(rotation);
 	}
-
+	
 private:
-
-private:
-	glm::vec2 previousMousePos;
+	glm::vec2 pitchYaw;
 };
 
 static PlaygroundCameraController cameraController(camera);
@@ -76,12 +74,15 @@ static PlaygroundCameraController cameraController(camera);
 PlaygroundApplication::PlaygroundApplication()
 		: Application() {
 	renderer = std::make_unique<Buffalo::Rendering::Renderer>();
-	std::vector<glm::vec3> vertices;
+	/*std::vector<glm::vec3> vertices;
 	vertices.emplace_back(0.f, 0.f, 0.f);
 	vertices.emplace_back(0.f, 1.f, 0.f);
 	vertices.emplace_back(1.f, 1.f, 0.f);
 
-	mesh = std::make_unique<Buffalo::Rendering::Mesh>(vertices);
+	mesh = std::make_unique<Buffalo::Rendering::Mesh>(vertices);*/
+
+	Buffalo::Rendering::MeshFactory meshFactory;
+	mesh = meshFactory.MakeCube();
 
 	Buffalo::Rendering::Shader vertexShader(Buffalo::Rendering::ShaderType::Vertex);
 	vertexShader.AddSource(vertexSource);

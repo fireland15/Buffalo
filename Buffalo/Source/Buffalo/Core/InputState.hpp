@@ -21,6 +21,8 @@ namespace Buffalo {
 
 		static glm::vec2 GetMousePosition();
 
+		static glm::vec2 GetMousePositionDifferential();
+
 	private:
 		static Core::WindowInputAdapter* adapter;
 	};

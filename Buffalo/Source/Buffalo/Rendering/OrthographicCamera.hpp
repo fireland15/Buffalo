@@ -14,7 +14,7 @@ namespace Buffalo {
 			virtual glm::mat4 CalculateProjectionMatrix() override;
 
 		private:
-			float aspectRatio;
+			float _aspectRatio;
 		};
 	}
 }

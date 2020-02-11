@@ -24,7 +24,8 @@ namespace Buffalo {
 		//////////////////////////////////////
 
 		GlfwWindow::GlfwWindow(Unique<Events::EventDispatcher> eventDispatcher, const WindowProps & windowProps)
-			: Window(std::move(eventDispatcher)) {
+			: Window(std::move(eventDispatcher))
+			, _windowProps(windowProps) {
 			BUFFALO_PROFILE_FUNC();
 			if (_glfwWindowCount == 0) {
 				glfwSetErrorCallback(glfwErrorCallback);
@@ -57,7 +58,7 @@ namespace Buffalo {
 			glfwSetKeyCallback(_glfwWindow, &GlfwWindow::glfwKeyCallback);
 			glfwSetCursorPosCallback(_glfwWindow, &GlfwWindow::glfwCursorPosCallback);
 			glfwSetMouseButtonCallback(_glfwWindow, &GlfwWindow::glfwMouseButtonCallback);
-
+			glfwSetInputMode(_glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			glfwSwapInterval(0);
 		}
 
@@ -78,6 +79,7 @@ namespace Buffalo {
 		void GlfwWindow::OnUpdate() {
 			BUFFALO_PROFILE_FUNC();
 			_context->SwapBuffers();
+			_inputAdapter->OnUpdate();
 			glfwPollEvents();
 		}
 

@@ -12,6 +12,8 @@ namespace Buffalo {
 
 			virtual ~KeyEvent() = default;
 
+			inline Key GetKey() const { return _key; }
+
 		private:
 
 			Key _key;

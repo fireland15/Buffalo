@@ -11,11 +11,11 @@ namespace Buffalo {
 
 			virtual ~Camera();
 
-			inline const glm::mat4& GetViewProjectionMatrix() const { return viewProjectionMatrix; }
+			inline const glm::mat4& GetViewProjectionMatrix() const { return _viewProjectionMatrix; }
 
 			void SetLocation(const glm::vec3& location);
 
-			void ApplyRotation(const glm::quat& rotation);
+			void SetOrientation(const glm::quat& orientation);
 
 		protected:
 			virtual glm::mat4 CalculateViewMatrix() = 0;
@@ -25,15 +25,15 @@ namespace Buffalo {
 			glm::mat4 CalculateViewProjectionMatrix();
 
 		protected:
-			glm::vec3 location;
+			glm::vec3 _location;
 
-			glm::quat orientation;
+			glm::quat _orientation;
 
-			glm::mat4 viewMatrix;
+			glm::mat4 _viewMatrix;
 
-			glm::mat4 projectionMatrix;
+			glm::mat4 _projectionMatrix;
 
-			glm::mat4 viewProjectionMatrix;
+			glm::mat4 _viewProjectionMatrix;
 		};
 	}
 }

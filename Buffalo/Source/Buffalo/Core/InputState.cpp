@@ -35,4 +35,11 @@ namespace Buffalo {
 		assert(adapter != nullptr);
 		return adapter->GetMousePosition();
 	}
+
+	glm::vec2 InputState::GetMousePositionDifferential() {
+		BUFFALO_PROFILE_FUNC();
+		assert(adapter != nullptr);
+		return adapter->GetMousePositionDifferential();
+	}
+
 }

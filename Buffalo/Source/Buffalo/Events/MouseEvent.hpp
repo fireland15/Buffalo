@@ -33,6 +33,8 @@ namespace Buffalo {
 
 			virtual ~MouseButtonEvent() = default;
 
+			inline MouseCodes GetMouseCode() const { return _mouseCode; }
+
 		private:
 
 			MouseCodes _mouseCode;
