@@ -16,7 +16,7 @@ namespace Buffalo {
 			Shader& operator=(Shader&& other) = delete;
 			~Shader();
 
-			void AddSource(std::string& source);
+			void AddSource(const std::string& source);
 			void Compile();
 			GLuint Handle() const;
 			bool IsCompiled() const;

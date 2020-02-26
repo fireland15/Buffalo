@@ -14,6 +14,7 @@
 #include <Buffalo/Rendering/Renderer.hpp>
 #include <Buffalo/Rendering/Camera.hpp>
 #include <Buffalo/Rendering/OrthographicCamera.hpp>
+#include <Buffalo/Rendering/PerspectiveCamera.hpp>
 #include <Buffalo/Core.hpp>
 #include <Buffalo/Core/Debug.hpp>
 #include <Buffalo/Rendering/Model.hpp>
@@ -21,13 +22,14 @@
 #include <Buffalo/Events/EventDispatcher.hpp>
 #include <Buffalo/Core/TimeStep.hpp>
 #include <Buffalo/Rendering/MeshFactory.hpp>
+#include <Buffalo/Rendering/ProgramFactory.hpp>
 
 static Buffalo::Unique<Buffalo::Rendering::Mesh> mesh;
 static Buffalo::Unique<Buffalo::Rendering::Material> material;
 static Buffalo::Unique<Buffalo::Rendering::Program> program;
 static Buffalo::Unique<Buffalo::Rendering::Model> model;
 static Buffalo::Unique<Buffalo::Rendering::Renderer> renderer;
-static Buffalo::Rendering::OrthographicCamera camera(1.f);
+static Buffalo::Rendering::PerspectiveCamera camera(1.f);
 
 std::string vertexSource = R"x(
 #version 410
@@ -37,7 +39,7 @@ uniform mat4 u_mvp;
 out vec4 v_color;
 void main() {
 	gl_Position = u_mvp * vec4(a_position, 1.0);
-	v_color = u_color;
+	v_color = u_color + vec4(a_position, 1.0);
 }
 )x";
 std::string fragmentSource = R"x(
@@ -53,20 +55,34 @@ class PlaygroundCameraController : public Buffalo::Rendering::CameraController {
 public:
 	PlaygroundCameraController(Buffalo::Rendering::Camera& camera)
 		: Buffalo::Rendering::CameraController(camera)
-		, pitchYaw() { 
+		, lookAt(0.f, 0.f, 0.f)
+		, position(0.f) { 
 	}
 
 	virtual ~PlaygroundCameraController() = default;
 
 	virtual void OnUpdate(const Buffalo::Core::TimeStep& timestep) override {
-		auto mouseDiff = Buffalo::InputState::GetMousePositionDifferential();
-		pitchYaw += glm::vec2(glm::radians(0.1f * mouseDiff.y), glm::radians(0.1f * mouseDiff.x));
-		glm::quat rotation(glm::vec3(pitchYaw, 0.f));
-		camera.SetOrientation(rotation);
+		const float step = 0.05f;
+		if (Buffalo::InputState::IsKeyPressed(Buffalo::Key::A))
+			position.x -= step;
+		if (Buffalo::InputState::IsKeyPressed(Buffalo::Key::D))
+			position.x += step;
+		if (Buffalo::InputState::IsKeyPressed(Buffalo::Key::W))
+			position.y -= step;
+		if (Buffalo::InputState::IsKeyPressed(Buffalo::Key::S))
+			position.y += step;
+		if (Buffalo::InputState::IsKeyPressed(Buffalo::Key::Q))
+			position.z -= step;
+		if (Buffalo::InputState::IsKeyPressed(Buffalo::Key::Z))
+			position.z += step;
+
+		Buffalo::Rendering::Camera::UpdateMatricesUsingLookAt cameraUpdateParams(position, lookAt);
+		camera.UpdateMatrices(cameraUpdateParams);
 	}
 	
 private:
-	glm::vec2 pitchYaw;
+	glm::vec3 lookAt;
+	glm::vec3 position;
 };
 
 static PlaygroundCameraController cameraController(camera);
@@ -74,32 +90,12 @@ static PlaygroundCameraController cameraController(camera);
 PlaygroundApplication::PlaygroundApplication()
 		: Application() {
 	renderer = std::make_unique<Buffalo::Rendering::Renderer>();
-	/*std::vector<glm::vec3> vertices;
-	vertices.emplace_back(0.f, 0.f, 0.f);
-	vertices.emplace_back(0.f, 1.f, 0.f);
-	vertices.emplace_back(1.f, 1.f, 0.f);
-
-	mesh = std::make_unique<Buffalo::Rendering::Mesh>(vertices);*/
 
 	Buffalo::Rendering::MeshFactory meshFactory;
-	mesh = meshFactory.MakeCube();
+	mesh = meshFactory.MakeCylinder(4.f, 1.f);
 
-	Buffalo::Rendering::Shader vertexShader(Buffalo::Rendering::ShaderType::Vertex);
-	vertexShader.AddSource(vertexSource);
-	vertexShader.Compile();
 
-	Buffalo::Rendering::Shader fragmentShader(Buffalo::Rendering::ShaderType::Fragment);
-	fragmentShader.AddSource(fragmentSource);
-	fragmentShader.Compile();
-
-	program = std::make_unique<Buffalo::Rendering::Program>();
-	program->AttachShader(vertexShader);
-	program->AttachShader(fragmentShader);
-	program->Link();
-	program->DetachShader(vertexShader);
-	program->DetachShader(fragmentShader);
-	vertexShader.~Shader();
-	fragmentShader.~Shader();
+	program = std::move(Buffalo::Rendering::ProgramFactory().CreateProgram(vertexSource, fragmentSource));
 
 	material = std::make_unique<Buffalo::Rendering::Material>(glm::vec4(1.f, 0.5f, 0.75f, 1.f), *program);
 
@@ -120,6 +116,9 @@ void PlaygroundApplication::OnUpdate() {
 
 	renderer->ClearBuffers();
 	renderer->BeginScene(camera);
+	model->SetTranslation(glm::vec3(1.f, 0.f, 1.f));
+	renderer->Draw(model->GetMesh(), model->GetMaterial(), model->GetModelMatrix());
+	model->SetTranslation(glm::vec3(-1.f, 0.f, -1.f));
 	renderer->Draw(model->GetMesh(), model->GetMaterial(), model->GetModelMatrix());
 	renderer->EndScene();
 

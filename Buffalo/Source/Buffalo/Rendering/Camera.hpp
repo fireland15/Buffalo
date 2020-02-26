@@ -7,17 +7,33 @@ namespace Buffalo {
 	namespace Rendering {
 		class Camera {
 		public:
+
+			struct UpdateMatricesUsingOrientation {
+				const glm::vec3 position;
+				const glm::quat orientation;
+			};
+
+			struct UpdateMatricesUsingLookAt {
+				UpdateMatricesUsingLookAt(const glm::vec3& position, const glm::vec3& lookAt);
+
+				const glm::vec3 position;
+				const glm::vec3 lookAt;
+			};
+
+		public:
+
 			Camera(const glm::mat4& view, const glm::mat4& projection);
 
 			virtual ~Camera();
 
 			inline const glm::mat4& GetViewProjectionMatrix() const { return _viewProjectionMatrix; }
 
-			void SetLocation(const glm::vec3& location);
+			void UpdateMatrices(const UpdateMatricesUsingOrientation& params);
 
-			void SetOrientation(const glm::quat& orientation);
+			void UpdateMatrices(const UpdateMatricesUsingLookAt& params);
 
 		protected:
+
 			virtual glm::mat4 CalculateViewMatrix() = 0;
 
 			virtual glm::mat4 CalculateProjectionMatrix() = 0;
@@ -25,6 +41,7 @@ namespace Buffalo {
 			glm::mat4 CalculateViewProjectionMatrix();
 
 		protected:
+
 			glm::vec3 _location;
 
 			glm::quat _orientation;

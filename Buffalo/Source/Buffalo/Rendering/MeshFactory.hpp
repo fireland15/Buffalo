@@ -9,6 +9,10 @@ namespace Buffalo {
 		class MeshFactory {
 		public:
 			Buffalo::Unique<Mesh> MakeCube();
+
+			Buffalo::Unique<Mesh> MakeCapsule(float length, float radius);
+
+			Buffalo::Unique<Mesh> MakeCylinder(float length, float radius);
 		};
 	}
 }

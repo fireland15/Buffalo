@@ -17,18 +17,23 @@ namespace Buffalo {
 			return _projectionMatrix * _viewMatrix;
 		}
 
-		void Camera::SetLocation(const glm::vec3& newLocation) {
-			_location = newLocation;
+		void Camera::UpdateMatrices(const UpdateMatricesUsingOrientation& params) {
+			_location = params.position;
+			_orientation = params.orientation;
 
 			_viewMatrix = CalculateViewMatrix();
 			_viewProjectionMatrix = CalculateViewProjectionMatrix();
 		}
 
-		void Camera::SetOrientation(const glm::quat& orientation) {
-			_orientation = glm::normalize(orientation);
+		void Camera::UpdateMatrices(const UpdateMatricesUsingLookAt& params) {
+			_location = params.position;
+			_orientation = glm::quatLookAt(glm::normalize(params.lookAt - params.position), glm::vec3(0.f, 1.f, 0.f));
 
-			_viewMatrix = CalculateViewMatrix();
+			_viewMatrix = glm::lookAt(_location, params.lookAt, glm::vec3(0.f, 1.f, 0.f));
 			_viewProjectionMatrix = CalculateViewProjectionMatrix();
 		}
+
+		Camera::UpdateMatricesUsingLookAt::UpdateMatricesUsingLookAt(const glm::vec3& position, const glm::vec3& lookAt)
+			: position(position), lookAt(lookAt) { }
 	}
 }

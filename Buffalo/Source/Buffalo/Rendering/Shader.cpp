@@ -14,7 +14,7 @@ namespace Buffalo {
 			BUFFALO_PROFILE_FUNC();
 		}
 
-		void Shader::AddSource(std::string& source) {
+		void Shader::AddSource(const std::string& source) {
 			BUFFALO_PROFILE_FUNC();
 			assert(source.length() > 0); // The sources cannot be empty.
 			sources.push_back(source);

@@ -13,6 +13,7 @@ namespace Buffalo {
 		Renderer::Renderer() 
 			: matrixStack({ glm::mat4(1.f) }) {
 			BUFFALO_PROFILE_FUNC();
+			GL::Enable(Buffalo::Rendering::Capability::DepthTest);
 		}
 
 		void Renderer::BeginScene(const Camera& camera) {
@@ -43,7 +44,7 @@ namespace Buffalo {
 
 		void Renderer::ClearBuffers() {
 			BUFFALO_PROFILE_FUNC();
-			GL::Clear(GL_COLOR_BUFFER_BIT);
+			GL::Clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
 		void Renderer::PushMatrix(const glm::mat4& matrix) {
