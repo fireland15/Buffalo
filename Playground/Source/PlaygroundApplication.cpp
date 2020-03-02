@@ -92,7 +92,7 @@ PlaygroundApplication::PlaygroundApplication()
 	renderer = std::make_unique<Buffalo::Rendering::Renderer>();
 
 	Buffalo::Rendering::MeshFactory meshFactory;
-	mesh = meshFactory.MakeCylinder(4.f, 1.f);
+	mesh = meshFactory.MakeCapsule(4.f, 1.f);
 
 
 	program = std::move(Buffalo::Rendering::ProgramFactory().CreateProgram(vertexSource, fragmentSource));
@@ -116,8 +116,10 @@ void PlaygroundApplication::OnUpdate() {
 
 	renderer->ClearBuffers();
 	renderer->BeginScene(camera);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	model->SetTranslation(glm::vec3(1.f, 0.f, 1.f));
 	renderer->Draw(model->GetMesh(), model->GetMaterial(), model->GetModelMatrix());
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	model->SetTranslation(glm::vec3(-1.f, 0.f, -1.f));
 	renderer->Draw(model->GetMesh(), model->GetMaterial(), model->GetModelMatrix());
 	renderer->EndScene();

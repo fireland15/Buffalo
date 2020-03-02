@@ -57,28 +57,70 @@ namespace Buffalo {
 		}
 
 		Buffalo::Unique<Mesh> MeshFactory::MakeCapsule(float length, float radius) {
-			const std::size_t radialDivisions = 16L;
+			const std::size_t radialDivisions = 8 * 4;
 			float radialSegmentLength = (radius * PI) / 8.f;
-			std::size_t verticalDivisions = static_cast<std::size_t>(std::ceilf(length / radialSegmentLength));
-			float verticalSegmentLength = length / verticalDivisions;
+			std::size_t cylinderDivisions = static_cast<std::size_t>(std::ceilf(length / radialSegmentLength));
+			float verticalSegmentLength = length / cylinderDivisions;
+			const std::size_t capDivisions = radialDivisions / 4;
 
 			/// Just the cylinder right now...
-			std::size_t vertexCount = radialDivisions * (verticalDivisions + 1L);
+			std::size_t capVertexCount = radialDivisions * (radialDivisions / 4);
+			std::size_t cylinderVertexCount = radialDivisions * (cylinderDivisions + 1L);
+			//std::size_t vertexCount = 2 + (capVertexCount * 2) + cylinderVertexCount;
 
-			std::vector<glm::vec3> vertices(vertexCount);
-
+			std::size_t ringCount = capDivisions + capDivisions + cylinderDivisions + 2;
+			std::vector<std::vector<glm::vec3>> rings(ringCount, std::vector<glm::vec3>(radialDivisions));
+			
+			// Angular Steps
+			const float capAngularStep = PI / (2 * capDivisions);
 			const float angularStep = TAO / radialDivisions;
-
-
-			// Cylinder
-			for (std::size_t v = 0; v < verticalDivisions + 1L; v++) {
-				for (std::size_t r = 0; r < radialDivisions; r++) {
-					glm::vec3& vert = vertices[v * radialDivisions + r];
-					float angle = r * angularStep;
-					vert.x = radius * std::sinf(angle);
-					vert.y = v * verticalSegmentLength + radius;
-					vert.z = radius * std::cosf(angle);
+			
+			for (std::size_t i = 0; i < rings.size(); i++) {
+				auto& ring = rings[i];
+				// Bottom Cap
+				if (i < (capDivisions + 1)) {
+					float y = radius * (1.f - std::cosf(i * capAngularStep));
+					for (std::size_t j = 0; j < radialDivisions; j++) {
+						float angle = j * angularStep;
+						float r = radius * std::sinf(i * capAngularStep);
+						auto& vertex = ring[j];
+						vertex.x = r * std::sinf(angle);
+						vertex.y = y;
+						vertex.z = r * std::cosf(angle);
+					}
 				}
+
+				// Top Cap
+				else if (i >= (ringCount - (capDivisions + 1))) {
+					float y = length + radius * (1.f + std::sinf(i * capAngularStep));
+					for (std::size_t j = 0; j < radialDivisions; j++) {
+						float angle = j * angularStep;
+						float r = radius * std::cosf(i * capAngularStep);
+						auto& vertex = ring[j];
+						vertex.x = r * std::sinf(angle);
+						vertex.y = y;
+						vertex.z = r * std::cosf(angle);
+					}
+				}
+
+				// Cylinder
+				else {
+					float y = radius + (verticalSegmentLength * (i - capDivisions));
+					for (std::size_t j = 0; j < radialDivisions; j++) {
+						float angle = j * angularStep;
+						auto& vertex = ring[j];
+						vertex.x = radius * std::sinf(angle);
+						vertex.y = y;
+						vertex.z = radius * std::cosf(angle);
+					}
+				}
+			}
+						
+			std::vector<glm::vec3> vertices(rings.size() * radialDivisions + 2);
+			for (std::size_t i = 0; i < vertices.size() - 2; i++) {
+				auto ring = i / radialDivisions;
+				auto index = i % radialDivisions;
+				vertices[i] = rings[ring][index];
 			}
 
 			std::vector<std::size_t> indices;
@@ -91,12 +133,17 @@ namespace Buffalo {
 			i0-----i1
 			*/
 
-			for (std::size_t v = 0; v < verticalDivisions; v++) {
+			for (std::size_t v = 0; v < ringCount - 1; v++) {
 				for (std::size_t r = 0; r < radialDivisions; r++) {
 					auto i0 = r + (v * radialDivisions);
 					auto i1 = (i0 + 1) % radialDivisions == 0 ? i0 + 1 - radialDivisions : i0 + 1;
 					auto i2 = r + ((v + 1) * radialDivisions);
 					auto i3 = (i2 + 1) % radialDivisions == 0 ? i2 + 1 - radialDivisions : i2 + 1;
+
+					assert(i0 < vertices.size());
+					assert(i1 < vertices.size());
+					assert(i2 < vertices.size());
+					assert(i3 < vertices.size());
 
 					indices.push_back(i0);
 					indices.push_back(i1);
