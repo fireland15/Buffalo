@@ -10,7 +10,7 @@ namespace Buffalo {
 		public:
 			Buffalo::Unique<Mesh> MakeCube();
 
-			Buffalo::Unique<Mesh> MakeCapsule(float length, float radius);
+			Buffalo::Unique<Mesh> MakeCapsule(float length, float radius, int resolutionFactor = 4);
 
 			Buffalo::Unique<Mesh> MakeCylinder(float length, float radius);
 		};

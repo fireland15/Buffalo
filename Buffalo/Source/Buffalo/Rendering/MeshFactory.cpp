@@ -56,17 +56,15 @@ namespace Buffalo {
 			return std::make_unique<Mesh>(actualVerts);
 		}
 
-		Buffalo::Unique<Mesh> MeshFactory::MakeCapsule(float length, float radius) {
-			const std::size_t radialDivisions = 8 * 4;
-			float radialSegmentLength = (radius * PI) / 8.f;
-			std::size_t cylinderDivisions = static_cast<std::size_t>(std::ceilf(length / radialSegmentLength));
+		Buffalo::Unique<Mesh> MeshFactory::MakeCapsule(float length, float radius, int resolutionFactor) {
+			const std::size_t radialDivisions = resolutionFactor * 4;
+			float radialSegmentLength = (2 * radius * PI) / radialDivisions;
+			std::size_t cylinderDivisions = static_cast<std::size_t>(std::floorf(length / radialSegmentLength));
 			float verticalSegmentLength = length / cylinderDivisions;
 			const std::size_t capDivisions = radialDivisions / 4;
 
-			/// Just the cylinder right now...
 			std::size_t capVertexCount = radialDivisions * (radialDivisions / 4);
 			std::size_t cylinderVertexCount = radialDivisions * (cylinderDivisions + 1L);
-			//std::size_t vertexCount = 2 + (capVertexCount * 2) + cylinderVertexCount;
 
 			std::size_t ringCount = capDivisions + capDivisions + cylinderDivisions + 2;
 			std::vector<std::vector<glm::vec3>> rings(ringCount, std::vector<glm::vec3>(radialDivisions));
@@ -91,11 +89,12 @@ namespace Buffalo {
 				}
 
 				// Top Cap
-				else if (i >= (ringCount - (capDivisions + 1))) {
-					float y = length + radius * (1.f + std::sinf(i * capAngularStep));
+				else if (i > (ringCount - (capDivisions + 1))) {
+					auto capStep = i - (ringCount - (capDivisions + 1));
+					float y = radius + length + (radius * std::sinf(capStep * capAngularStep));
 					for (std::size_t j = 0; j < radialDivisions; j++) {
 						float angle = j * angularStep;
-						float r = radius * std::cosf(i * capAngularStep);
+						float r = radius * std::cosf(capStep * capAngularStep);
 						auto& vertex = ring[j];
 						vertex.x = r * std::sinf(angle);
 						vertex.y = y;
@@ -105,7 +104,7 @@ namespace Buffalo {
 
 				// Cylinder
 				else {
-					float y = radius + (verticalSegmentLength * (i - capDivisions));
+					float y = radius + (verticalSegmentLength * (i - capDivisions - 1));
 					for (std::size_t j = 0; j < radialDivisions; j++) {
 						float angle = j * angularStep;
 						auto& vertex = ring[j];
