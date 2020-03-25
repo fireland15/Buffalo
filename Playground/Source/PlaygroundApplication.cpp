@@ -56,7 +56,7 @@ public:
 	PlaygroundCameraController(Buffalo::Rendering::Camera& camera)
 		: Buffalo::Rendering::CameraController(camera)
 		, lookAt(0.f, 0.f, 0.f)
-		, position(0.f) { 
+		, position(0.f, 1.f, -5) { 
 	}
 
 	virtual ~PlaygroundCameraController() = default;
@@ -92,7 +92,7 @@ PlaygroundApplication::PlaygroundApplication()
 	renderer = std::make_unique<Buffalo::Rendering::Renderer>();
 
 	Buffalo::Rendering::MeshFactory meshFactory;
-	mesh = meshFactory.MakeCapsule(2.f, 4.f);
+	mesh = meshFactory.MakeRectangle(1.f, 0.5f);
 
 
 	program = std::move(Buffalo::Rendering::ProgramFactory().CreateProgram(vertexSource, fragmentSource));
@@ -107,8 +107,6 @@ PlaygroundApplication::~PlaygroundApplication() {
 	material.release();
 	program.release();
 }
-
-static float pos = 0.0f;
 
 void PlaygroundApplication::OnUpdate() {
 	Buffalo::Core::TimeStep ts;

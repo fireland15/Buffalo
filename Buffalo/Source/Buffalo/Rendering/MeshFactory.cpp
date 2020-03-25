@@ -56,16 +56,13 @@ namespace Buffalo {
 			return std::make_unique<Mesh>(actualVerts);
 		}
 
-		Buffalo::Unique<Mesh> MeshFactory::MakeCapsule(float length, float radius, int resolutionFactor) {
-			const std::size_t radialDivisions = resolutionFactor * 4;
+		Buffalo::Unique<Mesh> MeshFactory::MakeCapsule(float length, float radius, std::size_t resolutionFactor) {
+			const std::size_t radialDivisions = resolutionFactor * (std::size_t)4;
 			float radialSegmentLength = (2 * radius * PI) / radialDivisions;
 			std::size_t cylinderDivisions = static_cast<std::size_t>(std::floorf(length / radialSegmentLength));
 			float verticalSegmentLength = length / cylinderDivisions;
 			const std::size_t capDivisions = radialDivisions / 4;
-
-			std::size_t capVertexCount = radialDivisions * (radialDivisions / 4);
-			std::size_t cylinderVertexCount = radialDivisions * (cylinderDivisions + 1L);
-
+			
 			std::size_t ringCount = capDivisions + capDivisions + cylinderDivisions + 2;
 			std::vector<std::vector<glm::vec3>> rings(ringCount, std::vector<glm::vec3>(radialDivisions));
 			
@@ -239,6 +236,28 @@ namespace Buffalo {
 			for (int i = 0; i < indices.size(); i++) {
 				actualVerts[i] = vertices[indices[i]];
 			}
+			return std::make_unique<Mesh>(actualVerts);
+		}
+
+		Buffalo::Unique<Mesh> MeshFactory::MakeRectangle(float width, float length) {
+			const glm::vec3 verts[4] = {
+				{ -0.5f, 0.5f, 0.f },
+				{ 0.5f, 0.5f, 0.f },
+				{ -0.5f, -0.5f, 0.f },
+				{ 0.5f, -0.5f, 0.f }
+			};
+
+			const int indices[6] = {
+				0, 2, 1,
+				1, 2, 3
+			};
+
+			std::vector<glm::vec3> actualVerts(6);
+
+			for (int i = 0; i < actualVerts.size(); i++) {
+				actualVerts[i] = verts[indices[i]];
+			}
+
 			return std::make_unique<Mesh>(actualVerts);
 		}
 
